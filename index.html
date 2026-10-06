@@ -32,12 +32,12 @@
 <p style="margin:12px 0 0"><button class="btn" id="wa" style="width:100%">Send order on WhatsApp</button></p>
 <p style="margin:8px 0 0;text-align:center"><button class="btn o" id="cl" style="border:0">Keep browsing</button></p></aside>
 
-<script src="data.js"></script>
+<script src="config.js"></script>
 <script src="app.js"></script>
 <script>
 $("pick").innerHTML="<b>My skin is</b>"+skins.map(function(s){return'<button class="ch" data-s="'+s+'">'+s+'</button>'}).join("");
-$("feat").innerHTML=P.filter(function(p){return p.stock>0}).slice(0,4).map(card).join("");$("dv2").textContent=m(DEL);
+$("feat").innerHTML='<div class="empty">Loading…</div>';boot(function(){$("feat").innerHTML=P.filter(function(p){return p.stock>0}).slice(0,4).map(card).join("");$("dv2").textContent=m(DEL);
+if(D.hero)document.querySelector(".hero").style.background="linear-gradient(90deg,#D4EFDF 38%,rgba(212,239,223,.15)),url("+D.hero+") center/cover"});
 $("q").onkeydown=function(e){if(e.key==="Enter"&&this.value.trim())location.href="shop.html?q="+encodeURIComponent(this.value.trim())};
 document.addEventListener("click",function(e){var t=e.target.closest("[data-s],[data-c]");if(t)location.href="shop.html?"+(t.dataset.s?"skin="+t.dataset.s:"cat="+t.dataset.c)});
-if(D.hero)document.querySelector(".hero").style.background="linear-gradient(90deg,#D4EFDF 38%,rgba(212,239,223,.15)),url("+D.hero+") center/cover";
 </script></body></html>

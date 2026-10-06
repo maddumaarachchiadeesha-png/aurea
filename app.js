@@ -1,5 +1,11 @@
-/* Shop data lives in data.js. Edit it with admin.html */
-var D=window.AUREA,WA=D.wa,DEL=D.delivery,P=D.products,MX=Math.max(100,Math.ceil(Math.max.apply(null,P.map(function(p){return p.price}))/100)*100);
+/* Shop data is loaded from Supabase. Edit it in admin.html */
+var D={wa:"",delivery:0,logo:"",hero:"",products:[]},WA="",DEL=0,P=[],MX=500;
+function setData(d){D=d;WA=d.wa;DEL=d.delivery;P=d.products;MX=Math.max(100,Math.ceil(Math.max.apply(null,[0].concat(P.map(function(p){return p.price})))/100)*100)}
+function boot(cb){var H={apikey:SUPA.key,Authorization:"Bearer "+SUPA.key},u=SUPA.url+"/rest/v1/",g=function(q){return fetch(u+q,{headers:H}).then(function(r){return r.json()})};
+Promise.all([g("settings?select=data&id=eq.1"),g("products?select=id,sort,data&order=sort.asc")]).then(function(r){if(!Array.isArray(r[0])||!Array.isArray(r[1]))throw 0;var s=(r[0][0]||{}).data||{};
+setData({wa:s.wa||"",delivery:+s.delivery||0,logo:s.logo||"",hero:s.hero||"",products:r[1].map(function(x){var p=x.data;p.id=x.id;return p})});
+if(D.logo)document.querySelector(".logo").innerHTML='<img src="'+D.logo+'" alt="Aurea" style="height:40px;display:block">';
+save();cb()}).catch(function(){var e=document.querySelector("#grid,#feat");if(e)e.innerHTML='<div class="empty">Could not load products. Please refresh the page.</div>'})}
 var $=function(i){return document.getElementById(i)},cats=["All","Cleanse","Treat","Hydrate","Protect"],skins=["Oily","Combination","Dry","Normal","Sensitive"],
 F={c:"All",s:[],max:MX,st:false,q:"",o:"f"},cart={},sel=null,pq=1;
 try{cart=JSON.parse(localStorage.getItem("aurea")||"{}")}catch(e){}
@@ -38,5 +44,4 @@ if(!n||ph.replace(/\D/g,"").length<9||a.length<6){$("er").textContent="Please en
 $("er").textContent="";L.forEach(function(l){t+=l.p.price*l.q});
 var msg="Hi Aurea, I would like to order:\n"+L.map(function(l){return"- "+l.q+" x "+l.p.n+" ("+m(l.p.price*l.q)+")"}).join("\n")+"\n\nSubtotal: "+m(t)+"\nDelivery: "+m(DEL)+"\nTotal: "+m(t+DEL)+"\nName: "+n+"\nPhone: "+ph+"\nAddress: "+a;
 window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank","noopener")};
-if(D.logo)document.querySelector(".logo").innerHTML='<img src="'+D.logo+'" alt="Aurea" style="height:40px;display:block">';
 save();

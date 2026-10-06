@@ -14,41 +14,53 @@ input[type=file]{display:none}
 .pr{display:grid;grid-template-columns:120px 1fr;gap:14px}@media(max-width:600px){.pr{grid-template-columns:1fr}}
 .th{width:120px;height:120px;border-radius:10px;background:#EEF4F0;display:grid;place-items:center;color:var(--mute);font-size:12px;margin-bottom:6px;overflow:hidden}.th img{width:100%;height:100%;object-fit:cover}
 .wide{width:100%;max-width:300px;height:110px}
-.note{background:#FFF8D6;border:1px solid #e6d680;border-radius:10px;padding:10px 14px;font-size:14px}
+.login{max-width:360px;margin:12vh auto}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);color:#fff;padding:10px 18px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
 </style></head><body>
-<div class="top"><div class="w"><h1>Aurea Admin</h1><button class="o" id="rs">Reset draft</button><button id="dl">Download data.js</button></div></div>
-<div class="w"><p class="note"><b>How it works:</b> your changes are saved as a draft in this browser only. When you are done, tap <b>Download data.js</b> and upload it to your website host, replacing the old <b>data.js</b>. Customers see the change after that. If you later change data.js by hand, tap <b>Reset draft</b> first.</p><div id="app"></div></div>
-<script src="data.js"></script>
+<div id="lg" class="box login" style="display:none"><h1>Aurea Admin</h1><p>Sign in to manage your shop.</p>
+<label>Email<input id="em" type="email" autocomplete="username"></label><label style="margin-top:8px">Password<input id="pw" type="password" autocomplete="current-password"></label>
+<p id="er" style="color:#9b2c2c;min-height:20px"></p><button id="in">Sign in</button></div>
+<div id="ad" style="display:none"><div class="top"><div class="w"><h1>Aurea Admin</h1><a class="up o" href="shop.html" style="text-decoration:none">View shop</a><button class="o" id="out">Sign out</button></div></div>
+<div class="w"><p style="color:var(--mute);margin:0">Every change saves instantly and shows on the live shop after a page reload.</p><div id="app"></div></div></div>
+<div id="ts" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
 <script>
-var K="aurea_admin_draft",D,CATS=["Cleanse","Treat","Hydrate","Protect"],$=function(i){return document.getElementById(i)};
-try{D=JSON.parse(localStorage.getItem(K))}catch(e){}
-D=D||JSON.parse(JSON.stringify(window.AUREA));
+var db=supabase.createClient(SUPA.url,SUPA.key),CATS=["Cleanse","Treat","Hydrate","Protect"],S={},PR=[],$=function(i){return document.getElementById(i)};
 function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
-function save(){try{localStorage.setItem(K,JSON.stringify(D))}catch(e){alert("Draft is too big to keep in the browser. Tap Download data.js now so you do not lose it.")}}
-function shrink(f,max,type,cb){var r=new FileReader();r.onload=function(){var i=new Image();i.onload=function(){var s=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);var x=c.getContext("2d");if(type==="image/jpeg"){x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height)}x.drawImage(i,0,0,c.width,c.height);cb(c.toDataURL(type,.82))};i.src=r.result};r.readAsDataURL(f)}
+function toast(m,bad){var t=$("ts");t.textContent=m;t.style.background=bad?"#9b2c2c":"#18543A";t.style.opacity=1;clearTimeout(toast.t);toast.t=setTimeout(function(){t.style.opacity=0},2400)}
+async function run(q,ok){var r=await q;if(r.error){toast("Error: "+r.error.message,1);return false}toast(ok||"Saved \u2713");return true}
+function saveS(){return run(db.from("settings").upsert({id:1,data:S}))}
+function saveP(p){var d=Object.assign({},p);delete d.id;delete d.sort;return run(db.from("products").upsert({id:p.id,sort:p.sort,data:d}))}
+function shrink(f,max,type){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){var i=new Image();i.onload=function(){var s=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);var x=c.getContext("2d");if(type==="image/jpeg"){x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height)}x.drawImage(i,0,0,c.width,c.height);c.toBlob(res,type,.82)};i.onerror=rej;i.src=r.result};r.readAsDataURL(f)})}
+async function upl(b,ext){var n=Date.now()+"-"+Math.random().toString(36).slice(2,7)+"."+ext,r=await db.storage.from("images").upload(n,b,{contentType:b.type,cacheControl:"31536000"});if(r.error)throw r.error;return db.storage.from("images").getPublicUrl(n).data.publicUrl}
 function up(id,k,i){return'<label class="up o">Upload photo<input type="file" accept="image/*" data-up="'+k+'"'+(i==null?"":' data-i="'+i+'"')+'></label> '+(id?'<button class="o" data-rm="'+k+'"'+(i==null?"":' data-i="'+i+'"')+'>Remove</button>':"")}
 function draw(){
-var h='<h2>Site settings</h2><div class="box"><div class="g"><label>WhatsApp number<input data-s="wa" value="'+esc(D.wa)+'"></label><label>Delivery charge (Rs.)<input type="number" min="0" data-s="delivery" value="'+esc(D.delivery)+'"></label></div>'+
-'<div class="g"><div><label>Banner image (top of home page)</label><div class="th wide">'+(D.hero?'<img src="'+D.hero+'">':"None")+'</div>'+up(D.hero,"hero")+'</div><div><label>Logo image (replaces the Aurea text)</label><div class="th wide">'+(D.logo?'<img src="'+D.logo+'" style="object-fit:contain">':"None")+'</div>'+up(D.logo,"logo")+'</div></div></div>'+
-'<h2>Products ('+D.products.length+')</h2>';
-D.products.forEach(function(p,i){h+='<div class="box pr"><div><div class="th">'+(p.img?'<img src="'+p.img+'">':"No photo")+'</div>'+up(p.img,"p",i)+'</div><div><div class="g">'+
+var h='<h2>Site settings</h2><div class="box"><div class="g"><label>WhatsApp number<input data-s="wa" value="'+esc(S.wa)+'"></label><label>Delivery charge (Rs.)<input type="number" min="0" data-s="delivery" value="'+esc(S.delivery)+'"></label></div>'+
+'<div class="g"><div><label>Banner image (home page)</label><div class="th wide">'+(S.hero?'<img src="'+esc(S.hero)+'">':"None")+'</div>'+up(S.hero,"hero")+'</div><div><label>Logo image (replaces the Aurea text)</label><div class="th wide">'+(S.logo?'<img src="'+esc(S.logo)+'" style="object-fit:contain">':"None")+'</div>'+up(S.logo,"logo")+'</div></div></div><h2>Products ('+PR.length+')</h2>';
+PR.forEach(function(p,i){h+='<div class="box pr"><div><div class="th">'+(p.img?'<img src="'+esc(p.img)+'">':"No photo")+'</div>'+up(p.img,"p",i)+'</div><div><div class="g">'+
 '<label>Name<input data-i="'+i+'" data-k="n" value="'+esc(p.n)+'"></label>'+
 '<label>Category<select data-i="'+i+'" data-k="c">'+CATS.map(function(c){return"<option"+(c===p.c?" selected":"")+">"+c+"</option>"}).join("")+'</select></label>'+
 '<label>Price (Rs.)<input type="number" min="0" data-i="'+i+'" data-k="price" value="'+esc(p.price)+'"></label>'+
 '<label>Stock<input type="number" min="0" data-i="'+i+'" data-k="stock" value="'+esc(p.stock)+'"></label>'+
 '<label>Size<input data-i="'+i+'" data-k="size" value="'+esc(p.size)+'"></label>'+
-'<label>Skin types (comma, or "All")<input data-i="'+i+'" data-k="skin" value="'+esc(p.skin.join(", "))+'"></label></div>'+
+'<label>Skin types (comma, or "All")<input data-i="'+i+'" data-k="skin" value="'+esc((p.skin||["All"]).join(", "))+'"></label></div>'+
 '<label>Description<textarea rows="2" data-i="'+i+'" data-k="d">'+esc(p.d)+'</textarea></label><p style="margin:10px 0 0"><button class="d" data-del="'+i+'">Delete product</button></p></div></div>'});
 $("app").innerHTML=h+'<button id="add">+ Add product</button>'}
-document.addEventListener("change",function(e){var t=e.target,d=t.dataset,v=t.value;
-if(d.s){if(d.s==="wa"){v=v.replace(/\D/g,"");if(v[0]==="0")v="94"+v.slice(1);t.value=v}else v=Math.max(0,+v||0);D[d.s]=v;save()}
-else if(d.k){var p=D.products[d.i];if(d.k==="price"||d.k==="stock")v=Math.max(0,+v||0);if(d.k==="skin"){v=v.split(",").map(function(x){return x.trim()}).filter(Boolean);if(!v.length)v=["All"]}p[d.k]=v;save()}
-else if(d.up&&t.files[0]){var big=d.up==="hero"?1600:d.up==="logo"?400:700;shrink(t.files[0],big,d.up==="logo"?"image/png":"image/jpeg",function(u){if(d.up==="p")D.products[d.i].img=u;else D[d.up]=u;save();draw()})}});
-document.addEventListener("click",function(e){var d=e.target.dataset;
-if(d.rm!=null){if(d.rm==="p")delete D.products[d.i].img;else D[d.rm]="";save();draw()}
-if(d.del!=null&&confirm("Delete "+D.products[d.del].n+"?")){D.products.splice(d.del,1);save();draw()}
-if(e.target.id==="add"){D.products.push({id:"p"+Date.now(),n:"New product",c:"Hydrate",t:"bottle",l:"NEW",price:3000,stock:10,size:"50 ml",skin:["All"],when:"Morning and night",d:"Describe this product.",ing:[],ben:[],use:"",tip:""});save();draw();window.scrollTo(0,document.body.scrollHeight)}
-if(e.target.id==="rs"&&confirm("Discard the draft and reload from data.js?")){localStorage.removeItem(K);location.reload()}
-if(e.target.id==="dl"){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["window.AUREA="+JSON.stringify(D,null,1)+";\n"],{type:"text/javascript"}));a.download="data.js";a.click()}});
-draw();
+document.addEventListener("change",async function(e){var t=e.target,d=t.dataset,v=t.value;
+if(d.s){if(d.s==="wa"){v=v.replace(/\D/g,"");if(v[0]==="0")v="94"+v.slice(1);t.value=v}else v=Math.max(0,+v||0);S[d.s]=v;await saveS()}
+else if(d.k){var p=PR[d.i];if(d.k==="price"||d.k==="stock")v=Math.max(0,+v||0);if(d.k==="skin"){v=v.split(",").map(function(x){return x.trim()}).filter(Boolean);if(!v.length)v=["All"]}p[d.k]=v;await saveP(p)}
+else if(d.up&&t.files[0]){try{toast("Uploading\u2026");var png=d.up==="logo",b=await shrink(t.files[0],d.up==="hero"?1600:png?400:700,png?"image/png":"image/jpeg"),u=await upl(b,png?"png":"jpg");if(d.up==="p"){PR[d.i].img=u;await saveP(PR[d.i])}else{S[d.up]=u;await saveS()}draw()}catch(x){toast("Upload failed: "+(x.message||x),1)}}});
+document.addEventListener("click",async function(e){var d=e.target.dataset,id=e.target.id;
+if(d.rm!=null){if(d.rm==="p"){delete PR[d.i].img;await saveP(PR[d.i])}else{S[d.rm]="";await saveS()}draw()}
+if(d.del!=null&&confirm("Delete "+PR[d.del].n+"?")){if(await run(db.from("products").delete().eq("id",PR[d.del].id),"Deleted")){PR.splice(d.del,1);draw()}}
+if(id==="add"){var p={id:"p"+Date.now(),sort:PR.reduce(function(m,x){return Math.max(m,x.sort||0)},0)+1,n:"New product",c:"Hydrate",t:"bottle",l:"NEW",price:3000,stock:10,size:"50 ml",skin:["All"],when:"Morning and night",d:"Describe this product.",ing:[],ben:[],use:"",tip:""};if(await saveP(p)){PR.push(p);draw();window.scrollTo(0,document.body.scrollHeight)}}
+if(id==="out"){await db.auth.signOut();location.reload()}
+if(id==="in"){$("er").textContent="";var r=await db.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});if(r.error)$("er").textContent=r.error.message;else start()}});
+async function start(){var r=await db.auth.getSession();if(!r.data.session){$("lg").style.display="block";return}
+$("lg").style.display="none";$("ad").style.display="block";
+var a=await db.from("settings").select("data").eq("id",1).maybeSingle(),b=await db.from("products").select("id,sort,data").order("sort");
+if(a.error||b.error){toast("Could not load: "+(a.error||b.error).message,1);return}
+S=(a.data&&a.data.data)||{wa:"",delivery:0,logo:"",hero:""};PR=b.data.map(function(x){return Object.assign({id:x.id,sort:x.sort},x.data)});draw()}
+start();
 </script></body></html>

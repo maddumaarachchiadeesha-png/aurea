@@ -32,7 +32,7 @@
 <p style="margin:12px 0 0"><button class="btn" id="wa" style="width:100%">Send order on WhatsApp</button></p>
 <p style="margin:8px 0 0;text-align:center"><button class="btn o" id="cl" style="border:0">Keep browsing</button></p></aside>
 
-<script src="data.js"></script>
+<script src="config.js"></script>
 <script src="app.js"></script>
 <script>
 function match(p,skipCat){return(skipCat||F.c==="All"||p.c===F.c)&&p.price<=F.max&&(!F.st||p.stock>0)&&(!F.q||(p.n+" "+p.c+" "+p.ing.join(" ")+" "+p.d).toLowerCase().indexOf(F.q)>-1)&&(!F.s.length||p.skin.indexOf("All")>-1||F.s.some(function(s){return p.skin.indexOf(s)>-1}))}
@@ -52,8 +52,8 @@ $("fs").onchange=function(e){var s=e.target.value,i=F.s.indexOf(s);e.target.chec
 $("pr").oninput=function(e){F.max=+e.target.value;draw()};$("is").onchange=function(e){F.st=e.target.checked;draw()};
 $("so").onchange=function(e){F.o=e.target.value;draw()};$("q").oninput=function(e){F.q=e.target.value.trim().toLowerCase();draw()};
 $("clr").onclick=reset;$("fb").onclick=function(){fl(true)};$("sc").onclick=function(){fl(false)};
-var u=new URLSearchParams(location.search);
+$("grid").innerHTML='<div class="empty">Loading…</div>';boot(function(){F.max=MX;var u=new URLSearchParams(location.search);
 if(cats.indexOf(u.get("cat"))>-1)F.c=u.get("cat");if(skins.indexOf(u.get("skin"))>-1)F.s=[u.get("skin")];if(u.get("q")){F.q=u.get("q").trim().toLowerCase();$("q").value=u.get("q")}
 $("pr").min=0;$("pr").max=MX;$("pr").value=MX;
-draw();
+draw()});
 </script></body></html>
