@@ -6,6 +6,7 @@
 <title>Aurea | Authentic Korean Skincare</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
 <style>
+[hidden]{display:none!important}
 :root{--bg:#FFFFFF;--surf:#F6FAF7;--ink:#14281E;--mute:#46594D;--acc:#1F3D2F;--on:#FFFFFF;--line:#DCE7DF;--tile:#EEF4F0;color-scheme:light;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
@@ -83,28 +84,37 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 </head>
 <body>
 <header><div class="w"><a class="logo" href="#top">Aurea</a>
-<nav><a href="#shop">Shop</a><a href="#/stock">Stock</a><a href="#routine">Routine</a><a href="#about">About</a><a href="#faq">FAQ</a></nav>
+<nav><a href="#/shop">Shop</a><a href="#/routine">Routine</a><a href="#/about">About</a><a href="#/faq">FAQ</a></nav>
 <a class="btn" href="#/cart">Cart (<span id="cc">0</span>)</a></div></header>
 
 <main id="top">
-<div class="w hero">
-<div><h1>Calm, clear skin. Authentic, K Beauty Products.</h1>
+<div class="w hero" data-p="home">
+<div><h1>Calm, clear skin. Authentic COSRX.</h1>
 <p>Carefully sourced Korean skincare, hand-packed and delivered to your door. Simple formulas that do the work, without the noise.</p>
-<div class="row"><a class="btn" href="#shop">Shop COSRX</a><a class="btn o" href="#routine">Build a routine</a></div></div>
+<div class="row"><a class="btn" href="#/shop">Shop COSRX</a><a class="btn o" href="#/routine">Build a routine</a></div></div>
 <div class="stage" aria-hidden="true">
 <div class="pk tube"><i>SNAIL 96</i></div><div class="pk bottle"><i>BHA LIQUID</i></div><div class="pk jar"><i>SNAIL 92</i></div></div>
 </div>
 
-<div class="trust"><div class="w"><span>100% authentic products</span><span>Sealed and checked before dispatch</span><span>Skin-type guidance included</span><span>Order by message</span></div></div>
+<div class="trust" data-p="home"><div class="w"><span>100% authentic products</span><span>Sealed and checked before dispatch</span><span>Skin-type guidance included</span><span>Order by message</span></div></div>
 
-<section id="shop"><div class="w">
+<section class="alt" data-p="home"><div class="w">
+<h2>Skincare without the guesswork</h2>
+<p class="sub">One brand we know inside out, and honest advice on what suits your skin.</p>
+<div class="steps">
+<div><h3>Shop</h3><p>Browse our COSRX essentials, from cleansers to sun care.</p><p style="margin-top:14px"><a class="btn o" href="#/shop">Visit the shop</a></p></div>
+<div><h3>Routine</h3><p>A simple four-step routine you can start with today.</p><p style="margin-top:14px"><a class="btn o" href="#/routine">See the routine</a></p></div>
+<div><h3>About</h3><p>Who we are and how every order is sourced and packed.</p><p style="margin-top:14px"><a class="btn o" href="#/about">Our story</a></p></div>
+</div></div></section>
+
+<section id="shop" data-p="shop"><div class="w">
 <h2>The COSRX edit</h2>
 <p class="sub">Best-loved essentials for every step. Message us for current prices and stock.</p>
 <div class="chips" id="chips" role="group" aria-label="Filter products"></div>
 <div class="grid" id="grid"></div>
 </div></section>
 
-<section id="routine" class="alt"><div class="w">
+<section id="routine" class="alt" data-p="routine"><div class="w">
 <h2>A simple routine, in four steps</h2>
 <p class="sub">Start small. Add one product at a time and let your skin settle.</p>
 <div class="steps">
@@ -114,13 +124,13 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <div><h3>Protect</h3><p>Finish every morning with a lightweight SPF. It matters more than any serum.</p></div>
 </div></div></section>
 
-<section id="about"><div class="w split">
+<section id="about" data-p="about"><div class="w split">
 <div><h2>Skincare, curated with care</h2></div>
 <div><p style="margin-top:0">Aurea is a small, independent reseller focused on one brand we trust: COSRX. By staying focused, we know every product well and can tell you honestly what suits your skin.</p>
 <p>Every order is sourced from reliable suppliers, checked for seals and expiry dates, and packed by hand.</p></div>
 </div></section>
 
-<section id="faq" class="alt"><div class="w split">
+<section id="faq" class="alt" data-p="faq"><div class="w split">
 <div><h2>Good to know</h2><p class="sub">Anything else, just message us.</p></div>
 <div>
 <details><summary>Are the products authentic?</summary><p>Yes. We only sell genuine COSRX, sourced from trusted suppliers and checked on arrival.</p></details>
@@ -129,7 +139,7 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <details><summary>Can I return an item?</summary><p>Unopened, sealed items can be returned. Message us within a few days of delivery.</p></details>
 </div></div></section>
 
-<section id="contact" class="contact"><div class="w">
+<section id="contact" class="contact" data-p="*"><div class="w">
 <h2>Ready when you are</h2>
 <p class="sub">Send us a message with what you would like, and we will take care of the rest.</p>
 <a class="btn" id="wa" href="#">Message on WhatsApp</a>
@@ -137,13 +147,13 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 </main>
 <main id="app" class="w pg" hidden></main>
 
-<footer><div class="w"><span>&copy; 2026 Aurea &nbsp; <a href="#/stock">Stock</a> &nbsp; <a href="#/admin">Admin</a></span><span>Independent reseller. Not affiliated with COSRX.</span></div></footer>
+<footer><div class="w"><span>&copy; 2026 Aurea &nbsp; <a href="#/admin">Admin</a></span><span>Independent reseller. Not affiliated with COSRX.</span></div></footer>
 
-<script id="data" type="application/json">{"v": 0, "wa": "94702128546", "cur": "Rs. ", "pin": "1234", "products": [{"id": "snail96", "n": "Advanced Snail 96 Mucin Power Essence", "c": "Hydrate", "d": "Lightweight essence for plump, calm skin.", "u": "After cleansing and toner, pat 2-3 pumps into the face morning and night.", "t": "tube", "l": "SNAIL 96", "price": 4800, "stock": 12}, {"id": "snail92", "n": "Advanced Snail 92 All-in-One Cream", "c": "Hydrate", "d": "Soft, nourishing daily moisturiser.", "u": "Apply a small amount as the last step of your night routine, or morning before SPF.", "t": "jar", "l": "SNAIL 92", "price": 5200, "stock": 8}, {"id": "gelcl", "n": "Low pH Good Morning Gel Cleanser", "c": "Cleanse", "d": "Gentle, refreshing start to the day.", "u": "Massage onto damp skin, then rinse with lukewarm water.", "t": "tube", "l": "GEL CLEANSER", "price": 2900, "stock": 15}, {"id": "salic", "n": "Salicylic Acid Daily Gentle Cleanser", "c": "Cleanse", "d": "Clears pores without over-drying.", "u": "Use once or twice daily on damp skin, then rinse well.", "t": "tube", "l": "SALICYLIC", "price": 3100, "stock": 3}, {"id": "bha", "n": "BHA Blackhead Power Liquid", "c": "Treat", "d": "Smooths texture and unclogs pores.", "u": "Apply with a cotton pad after cleansing, 2-3 nights a week. Use SPF in the morning.", "t": "bottle", "l": "BHA LIQUID", "price": 3600, "stock": 10}, {"id": "aha", "n": "AHA 7 Whitehead Power Liquid", "c": "Treat", "d": "Brightens and refines dull skin.", "u": "Apply with a cotton pad at night, 2-3 times a week. Use SPF in the morning.", "t": "bottle", "l": "AHA 7", "price": 3600, "stock": 0}, {"id": "prop", "n": "Full Fit Propolis Light Ampoule", "c": "Hydrate", "d": "Glow and light nourishment.", "u": "Press a few drops into clean skin before moisturiser.", "t": "drop", "l": "PROPOLIS", "price": 4400, "stock": 6}, {"id": "sun", "n": "Aloe Soothing Sun Cream SPF50+", "c": "Protect", "d": "Light, comfortable daily sun protection.", "u": "Apply generously as the last morning step. Reapply when outdoors.", "t": "tube", "l": "ALOE SUN", "price": 3900, "stock": 9}]}</script>
+<script id="data" type="application/json">{"v": 0, "wa": "94700000000", "cur": "Rs. ", "pin": "1234", "products": [{"id": "snail96", "n": "Advanced Snail 96 Mucin Power Essence", "c": "Hydrate", "d": "Lightweight essence for plump, calm skin.", "u": "After cleansing and toner, pat 2-3 pumps into the face morning and night.", "t": "tube", "l": "SNAIL 96", "price": 4800, "stock": 12}, {"id": "snail92", "n": "Advanced Snail 92 All-in-One Cream", "c": "Hydrate", "d": "Soft, nourishing daily moisturiser.", "u": "Apply a small amount as the last step of your night routine, or morning before SPF.", "t": "jar", "l": "SNAIL 92", "price": 5200, "stock": 8}, {"id": "gelcl", "n": "Low pH Good Morning Gel Cleanser", "c": "Cleanse", "d": "Gentle, refreshing start to the day.", "u": "Massage onto damp skin, then rinse with lukewarm water.", "t": "tube", "l": "GEL CLEANSER", "price": 2900, "stock": 15}, {"id": "salic", "n": "Salicylic Acid Daily Gentle Cleanser", "c": "Cleanse", "d": "Clears pores without over-drying.", "u": "Use once or twice daily on damp skin, then rinse well.", "t": "tube", "l": "SALICYLIC", "price": 3100, "stock": 3}, {"id": "bha", "n": "BHA Blackhead Power Liquid", "c": "Treat", "d": "Smooths texture and unclogs pores.", "u": "Apply with a cotton pad after cleansing, 2-3 nights a week. Use SPF in the morning.", "t": "bottle", "l": "BHA LIQUID", "price": 3600, "stock": 10}, {"id": "aha", "n": "AHA 7 Whitehead Power Liquid", "c": "Treat", "d": "Brightens and refines dull skin.", "u": "Apply with a cotton pad at night, 2-3 times a week. Use SPF in the morning.", "t": "bottle", "l": "AHA 7", "price": 3600, "stock": 0}, {"id": "prop", "n": "Full Fit Propolis Light Ampoule", "c": "Hydrate", "d": "Glow and light nourishment.", "u": "Press a few drops into clean skin before moisturiser.", "t": "drop", "l": "PROPOLIS", "price": 4400, "stock": 6}, {"id": "sun", "n": "Aloe Soothing Sun Cream SPF50+", "c": "Protect", "d": "Light, comfortable daily sun protection.", "u": "Apply generously as the last morning step. Reapply when outdoors.", "t": "tube", "l": "ALOE SUN", "price": 3900, "stock": 9}]}</script>
 <script>
 var D=JSON.parse(document.getElementById("data").textContent);
 try{var o=JSON.parse(localStorage.getItem("mcd")||"null");if(o&&o.v>D.v)D=o}catch(e){}
-var P=D.products,adm=false,cp=null,gj=0;
+var P=D.products,adm=false,cp=null,gj=0,G={};try{G=JSON.parse(localStorage.getItem("mcg")||"{}")}catch(e){}
 function fix(){P=D.products;P.forEach(function(p){if(p.img){p.imgs=[p.img];delete p.img}if(!p.imgs)p.imgs=[]})}
 fix();
 function idb(f){return new Promise(function(ok,no){var r=indexedDB.open("mc",1);r.onupgradeneeded=function(){r.result.createObjectStore("k")};r.onsuccess=function(){var t=r.result.transaction("k",f.w?"readwrite":"readonly"),st=t.objectStore("k"),q=f.w?st.put(f.v,"d"):st.get("d");t.oncomplete=function(){ok(q.result)};t.onerror=no};r.onerror=no})}
@@ -167,9 +177,9 @@ $("grid").innerHTML=P.filter(function(p){return cur==="All"||p.c===cur}).map(fun
 return '<article class="card"><a class="im" href="#/product/'+p.id+'"><div class="img">'+vis(p)+'</div></a><h3>'+p.n+'</h3><p class="pr">'+m(p.price)+'</p><p>'+tag(p)+'</p><a href="#/product/'+p.id+'">View details</a></article>'}).join("")}
 var V={
 product:function(id){var p=get(id);if(!p)return V.nf();pq=1;cp=p;gj=0;
-return '<a class="lnk" href="#shop">Back to shop</a><div class="two"><div><div class="big" id="gm" onclick="A.gn()">'+vis(p)+'</div>'+(p.imgs.length>1?'<div class="thumbs">'+p.imgs.map(function(u,j){return '<button class="tb'+(j?"":" on")+'" onclick="A.gi('+j+')" aria-label="Photo '+(j+1)+'"><img src="'+u+'" alt=""></button>'}).join("")+'</div>':"")+'</div><div><h1 style="font-size:clamp(30px,4vw,44px);margin-bottom:6px">'+p.n+'</h1><div class="price">'+m(p.price)+'</div>'+tag(p)+'<p style="margin:18px 0;color:var(--mute)">'+p.d+'</p><p style="margin:0 0 24px"><b style="font-weight:500">How to use.</b> '+p.u+'</p>'+
+return '<a class="lnk" href="#/shop">Back to shop</a><div class="two"><div><div class="big" id="gm" onclick="A.gn()">'+vis(p)+'</div>'+(p.imgs.length>1?'<div class="thumbs">'+p.imgs.map(function(u,j){return '<button class="tb'+(j?"":" on")+'" onclick="A.gi('+j+')" aria-label="Photo '+(j+1)+'"><img src="'+u+'" alt=""></button>'}).join("")+'</div>':"")+'</div><div><h1 style="font-size:clamp(30px,4vw,44px);margin-bottom:6px">'+p.n+'</h1><div class="price">'+m(p.price)+'</div>'+tag(p)+'<p style="margin:18px 0;color:var(--mute)">'+p.d+'</p><p style="margin:0 0 24px"><b style="font-weight:500">How to use.</b> '+p.u+'</p>'+
 (p.stock>0?'<span class="qty"><button aria-label="Less" onclick="A.pq(-1,'+p.stock+')">&minus;</button><span id="pq">1</span><button aria-label="More" onclick="A.pq(1,'+p.stock+')">+</button></span><button class="btn" onclick="A.add(\''+p.id+'\')">Add to cart</button>':'<button class="btn" disabled>Out of stock</button>')+'<p id="msg" style="color:var(--mute);font-size:14px;margin-top:14px" role="status"></p></div></div>'},
-cart:function(){var L=lines();if(!L.length)return '<h1>Your cart</h1><p class="sub">Your cart is empty.</p><a class="btn" href="#shop">Browse products</a>';
+cart:function(){var L=lines();if(!L.length)return '<h1>Your cart</h1><p class="sub">Your cart is empty.</p><a class="btn" href="#/shop">Browse products</a>';
 return '<h1>Your cart</h1><div style="max-width:720px">'+L.map(function(l){return '<div class="li"><div><a href="#/product/'+l.p.id+'" style="text-decoration:none">'+l.p.n+'</a><br><span style="color:var(--mute);font-size:14px">'+m(l.p.price)+'</span></div><span class="qty"><button aria-label="Less" onclick="A.set(\''+l.p.id+'\','+(l.q-1)+')">&minus;</button><span>'+l.q+'</span><button aria-label="More" onclick="A.set(\''+l.p.id+'\','+(l.q+1)+')">+</button></span><span>'+m(l.p.price*l.q)+'</span></div>'}).join("")+'<div class="tot"><span>Subtotal</span><span>'+m(sub())+'</span></div><p style="color:var(--mute);font-size:14px;margin:0 0 24px">Delivery cost is confirmed with you after you place the order.</p><a class="btn" href="#/checkout">Checkout</a></div>'},
 checkout:function(){var L=lines();if(!L.length)return V.cart();
 return '<h1>Checkout</h1><div class="two"><form id="f" onsubmit="return A.submit(event)" novalidate>'+
@@ -177,33 +187,43 @@ return '<h1>Checkout</h1><div class="two"><form id="f" onsubmit="return A.submit
 '<label class="fld">Delivery address<textarea name="a" rows="3" autocomplete="street-address"></textarea><small id="e_a"></small></label><button class="btn" type="submit">Place order</button></form><div class="sum"><h2 style="margin-bottom:14px">Order summary</h2>'+L.map(function(l){return '<p>'+l.q+' &times; '+l.p.n+'<br><span style="color:var(--mute)">'+m(l.p.price*l.q)+'</span></p>'}).join("")+'<div class="tot" style="padding-bottom:0"><span>Subtotal</span><span>'+m(sub())+'</span></div></div></div>'},
 done:function(){if(!last)return V.nf();
 return '<h1>Order ready to send</h1><div class="sum" style="max-width:560px"><p><b style="font-weight:500">Order '+last.id+'</b></p><p>'+esc(last.name)+'<br>'+esc(last.p1)+' / '+esc(last.p2)+'<br>'+esc(last.a).replace(/\n/g,"<br>")+'</p><p style="margin-top:14px">Total: '+m(last.total)+'</p></div><p style="max-width:560px;color:var(--mute);margin:24px 0">Your order is not confirmed until you send it to us on WhatsApp. Tap below to send the details.</p><a class="btn" target="_blank" rel="noopener" href="'+wa(last.msg)+'">Send order on WhatsApp</a>'},
-stock:function(){return '<h1>Stock</h1><div class="tbl"><table><tr><th>Product</th><th>Category</th><th>Quantity</th><th>Status</th></tr>'+P.map(function(p){return '<tr><td>'+p.n+'</td><td>'+p.c+'</td><td>'+p.stock+'</td><td>'+tag(p)+'</td></tr>'}).join("")+'</table></div><p style="color:var(--mute);font-size:14px;margin-top:18px">Total units available: '+P.reduce(function(a,p){return a+p.stock},0)+'</p>'},
+stock:function(){if(!adm)return V.admin();return '<a class="lnk" href="#/admin">Back to admin</a><h1>Stock</h1><div class="tbl"><table><tr><th>Product</th><th>Category</th><th>Quantity</th><th>Status</th></tr>'+P.map(function(p){return '<tr><td>'+p.n+'</td><td>'+p.c+'</td><td>'+p.stock+'</td><td>'+tag(p)+'</td></tr>'}).join("")+'</table></div><p style="color:var(--mute);font-size:14px;margin-top:18px">Total units available: '+P.reduce(function(a,p){return a+p.stock},0)+'</p>'},
 admin:function(){
 if(!adm)return '<h1>Admin</h1><form onsubmit="return A.login(event)" style="max-width:360px"><label class="fld">Passcode<input name="pw" type="password" autocomplete="current-password"><small id="e_pw"></small></label><button class="btn" type="submit">Unlock</button></form>';
 function q(t){return String(t).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
 function inp(l,i,k,t){return '<label class="fld">'+l+'<input type="'+(t||"text")+'" value="'+q(P[i][k])+'" oninput="A.ed('+i+',\''+k+'\',this.value)"></label>'}
 function sel(l,i,k,o){return '<label class="fld">'+l+'<select onchange="A.ed('+i+',\''+k+'\',this.value)">'+o.map(function(x){return '<option'+(x===P[i][k]?' selected':'')+'>'+x+'</option>'}).join("")+'</select></label>'}
+function gf(l,k,t){return '<label class="fld">'+l+'<input type="'+(t||"text")+'" value="'+q(G[k]||"")+'" oninput="A.gh(\''+k+'\',this.value)"></label>'}
 function cf(l,k){return '<label class="fld">'+l+'<input value="'+q(D[k])+'" oninput="A.cfg(\''+k+'\',this.value)"></label>'}
-return '<h1>Admin</h1><p id="ps" role="status" style="color:var(--mute);font-size:14px;margin:-12px 0 20px"></p><div class="sum ag" style="margin-bottom:28px">'+cf("WhatsApp number (country code, no + or spaces)","wa")+cf("Currency symbol","cur")+cf("Admin passcode","pin")+'</div><h2 style="margin-bottom:16px">Products</h2>'+
+return '<h1>Admin</h1><a class="lnk" href="#/stock" style="margin:-12px 0 16px">Stock overview</a><p id="ps" role="status" style="color:var(--mute);font-size:14px;margin:-12px 0 20px"></p><div class="sum ag" style="margin-bottom:28px">'+cf("WhatsApp number (country code, no + or spaces)","wa")+cf("Currency symbol","cur")+cf("Admin passcode","pin")+'</div><h2 style="margin-bottom:16px">Products</h2>'+
 P.map(function(p,i){return '<div class="sum" style="margin-bottom:14px"><div class="ag">'+inp("Name",i,"n")+inp("Price",i,"price","number")+inp("Stock quantity",i,"stock","number")+sel("Category",i,"c",cats.slice(1))+sel("Bottle shape",i,"t",["bottle","tube","jar","drop"])+inp("Short description",i,"d")+'</div>'+inp("How to use",i,"u")+'<div class="fld">Photos ('+P[i].imgs.length+' of 6)<div class="thumbs" style="flex-wrap:wrap;padding-top:8px">'+P[i].imgs.map(function(u,j){return '<div style="position:relative"><img class="thumb" style="margin:0" src="'+u+'" alt="">'+(j?'<button class="btn o" style="padding:2px 10px;font-size:12px;margin-top:6px;display:block" onclick="A.main('+i+','+j+')">Make main</button>':'<span style="font-size:12px;color:var(--mute);display:block;margin-top:6px">Main photo</span>')+'<button class="btn o" aria-label="Remove photo" style="position:absolute;top:-6px;right:-6px;padding:0;width:24px;height:24px;line-height:1;font-size:14px" onclick="A.rm('+i+','+j+')">&times;</button></div>'}).join("")+'</div>'+(P[i].imgs.length<6?'<input type="file" accept="image/*" multiple onchange="A.img('+i+',this)">':"")+'<small id="ie'+i+'"></small></div>'+'<button class="btn o" onclick="A.del('+i+',this)">Remove product</button></div>'}).join("")+
-'<button class="btn o" onclick="A.addp()">Add product</button><div class="sum" style="margin-top:32px"><h2 style="margin-bottom:10px">Publish your changes</h2><p style="color:var(--mute)">Photos are resized automatically. Changes show on this device straight away. To update the live site for customers, download the new file and upload it to GitHub, replacing the old index.html.</p><button class="btn" onclick="A.dl()">Download updated index.html</button> <button class="btn o" onclick="A.cp()">Copy product data</button><p id="dm" style="font-size:14px;color:var(--mute);margin:12px 0 0" role="status"></p></div>'},
-nf:function(){return '<h1>Page not found</h1><a class="btn" href="#shop">Back to shop</a>'}};
+'<button class="btn o" onclick="A.addp()">Add product</button><div class="sum" style="margin-top:32px"><h2 style="margin-bottom:10px">Publish your changes</h2><p style="color:var(--mute)">Photos are resized automatically and saved on this device. Press Publish to put your changes live for customers in one tap. Fill in the GitHub details once; they stay on this device only.</p><div class="ag">'+gf("Repository (username/repo)","r")+gf("Branch (usually main)","b")+'</div>'+gf("GitHub token","t","password")+'<button class="btn" onclick="A.pub()">Publish to live site</button> <button class="btn o" onclick="A.dl()">Download file instead</button> <button class="btn o" onclick="A.cp()">Copy product data</button>'+'<p id="dm" style="font-size:14px;color:var(--mute);margin:12px 0 0" role="status"></p></div>'},
+nf:function(){return '<h1>Page not found</h1><a class="btn" href="#/shop">Back to shop</a>'}};
 var A={
 login:function(e){e.preventDefault();if(e.target.pw.value===D.pin){adm=true;route()}else $("e_pw").textContent="Wrong passcode.";return false},
 persist:function(){D.v=Date.now();idb({w:1,v:D}).then(function(){A.ps("Saved on this device. Download the updated file to publish.")},function(){A.ps("Could not save on this device. Download the file now to keep your changes.")});home()},
 ed:function(i,k,v){if(k==="price"||k==="stock")v=Math.max(0,parseInt(v,10)||0);P[i][k]=v;if(k==="n")P[i].l=v.toUpperCase().slice(0,12);A.pd()},
 cfg:function(k,v){D[k]=v;A.pd()},
 addp:function(){P.push({id:"p"+Date.now(),n:"New product",c:"Hydrate",d:"",u:"",t:"bottle",l:"NEW PRODUCT",imgs:[],price:0,stock:0});A.persist();route()},
-del:function(i,b){if(b.dataset.s!=="1"){b.dataset.s="1";b.textContent="Tap again to remove";return}delete cart[P[i].id];P.splice(i,1);save();A.persist();route()},
+del:function(i,b){if(b.dataset.s!=="1"){b.dataset.s="1";b.textContent="Tap again to remove";return}delete cart[P[i].id];P.splice(i,1);save();A.persist();A.rr()},
 json:function(){return JSON.stringify(D).replace(/</g,"\\u003c")},
 cp:function(){var t=A.json();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){$("dm").textContent="Product data copied."},function(){$("dm").textContent="Copy is blocked here. Use the download button."})},
+gh:function(k,v){G[k]=v.trim();try{localStorage.setItem("mcg",JSON.stringify(G))}catch(e){}},
+b64:function(t){var b=new TextEncoder().encode(t),o="";for(var i=0;i<b.length;i+=32768)o+=String.fromCharCode.apply(null,b.subarray(i,i+32768));return btoa(o)},
+pub:function(){var s=$("dm"),br=G.b||"main",u="https://api.github.com/repos/"+G.r+"/contents/index.html",q="?ref="+encodeURIComponent(br),H={Authorization:"Bearer "+G.t,Accept:"application/vnd.github+json"},sha;
+if(!/^[^\/\s]+\/[^\/\s]+$/.test(G.r||"")||!G.t){s.textContent="Enter the repository (username/repo) and your token first.";return}
+s.textContent="Publishing...";A.persist();
+fetch(u+q,{headers:H}).then(function(r){if(!r.ok)throw 1;return r.json()}).then(function(j){sha=j.sha;return fetch(u+q,{headers:{Authorization:H.Authorization,Accept:"application/vnd.github.raw+json"}})}).then(function(r){if(!r.ok)throw 1;return r.text()}).then(function(t){
+var out=t.replace(/(<script id="data" type="application\/json">)[\s\S]*?(<\/script>)/,function(x,a,b){return a+A.json()+b});
+return fetch(u,{method:"PUT",headers:H,body:JSON.stringify({message:"Update products",content:A.b64(out),sha:sha,branch:br})})}).then(function(r){if(!r.ok)throw 1;s.textContent="Published. Customers will see the update in about a minute."}).catch(function(){s.textContent="Could not publish. Check the repository, branch and token (the token needs Contents: read and write)."})},
 dl:function(){A.persist();fetch(location.href.split("#")[0]).then(function(r){return r.text()}).then(function(t){
 var out=t.replace(/(<script id="data" type="application\/json">)[\s\S]*?(<\/script>)/,function(x,a,b){return a+A.json()+b});
 var u=URL.createObjectURL(new Blob([out],{type:"text/html"})),l=document.createElement("a");l.href=u;l.download="index.html";document.body.appendChild(l);l.click();l.remove();$("dm").textContent="Downloaded. Upload it to GitHub to go live."}).catch(function(){$("dm").textContent="Download is blocked here. It works on your GitHub Pages site."})},
 img:function(i,el){var fs=[].slice.call(el.files).slice(0,6-P[i].imgs.length),e=$("ie"+i);if(!fs.length)return;e.textContent="Adding photos...";
-Promise.all(fs.map(function(f){return new Promise(function(ok,no){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var k=Math.min(1,800/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);ok(c.toDataURL("image/jpeg",0.72))};im.onerror=no;im.src=r.result};r.onerror=no;r.readAsDataURL(f)})})).then(function(u){P[i].imgs=P[i].imgs.concat(u);A.persist();route()},function(){e.textContent="One of those files is not a valid image."})},
-rm:function(i,j){P[i].imgs.splice(j,1);A.persist();route()},
-main:function(i,j){var u=P[i].imgs.splice(j,1)[0];P[i].imgs.unshift(u);A.persist();route()},
+Promise.all(fs.map(function(f){return new Promise(function(ok,no){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var k=Math.min(1,800/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);ok(c.toDataURL("image/jpeg",0.72))};im.onerror=no;im.src=r.result};r.onerror=no;r.readAsDataURL(f)})})).then(function(u){P[i].imgs=P[i].imgs.concat(u);A.persist();A.rr()},function(){e.textContent="One of those files is not a valid image."})},
+rm:function(i,j){P[i].imgs.splice(j,1);A.persist();A.rr()},
+main:function(i,j){var u=P[i].imgs.splice(j,1)[0];P[i].imgs.unshift(u);A.persist();A.rr()},
+rr:function(){var y=window.scrollY;route();window.scrollTo(0,y)},
 gi:function(j){gj=j;$("gm").innerHTML=vis(cp,j);[].forEach.call(document.querySelectorAll(".tb"),function(b,k){b.classList.toggle("on",k===j)})},
 gn:function(){if(cp.imgs.length>1)A.gi((gj+1)%cp.imgs.length)},
 ps:function(t){var e=$("ps");if(e)e.textContent=t},
@@ -225,10 +245,12 @@ if(!ok)return false;
 var L=lines(),id="MC"+Date.now().toString(36).toUpperCase().slice(-6),t=sub();
 var msg="New order "+id+"\nName: "+v.n+"\nPhone 1: "+v.p1+"\nPhone 2: "+v.p2+"\nAddress: "+v.a+"\n\nItems:\n"+L.map(function(l){return "- "+l.q+" x "+l.p.n+" ("+m(l.p.price*l.q)+")"}).join("\n")+"\n\nSubtotal: "+m(t);
 last={id:id,name:v.n,p1:v.p1,p2:v.p2,a:v.a,total:t,msg:msg};cart={};save();location.hash="#/done";return false}};
-function route(){var h=location.hash,a=$("app"),t=$("top");
-if(h.indexOf("#/")!==0){a.hidden=true;t.hidden=false;if(h.length>1)setTimeout(function(){var e=document.getElementById(h.slice(1));e&&e.scrollIntoView()},0);return}
-t.hidden=true;a.hidden=false;var s=h.slice(2).split("/");a.innerHTML=(V[s[0]]||V.nf)(s[1]);window.scrollTo(0,0)}
-window.addEventListener("hashchange",route);
+function route(x){var h=typeof x==="string"?x:location.hash,a=$("app"),t=$("top"),s=h.slice(2).split("/"),pg={shop:1,routine:1,about:1,faq:1},k=h.indexOf("#/")!==0?"home":pg[s[0]]?s[0]:"";
+if(k){a.hidden=true;t.hidden=false;[].forEach.call(t.children,function(e){var d=(e.getAttribute("data-p")||"").split(" ");e.hidden=d.indexOf("*")<0&&d.indexOf(k)<0});
+window.scrollTo(0,0);if(h.indexOf("#/")!==0&&h.length>1)setTimeout(function(){var e=document.getElementById(h.slice(1));e&&e.scrollIntoView()},0);return}
+t.hidden=true;a.hidden=false;a.innerHTML=(V[s[0]]||V.nf)(s[1]);window.scrollTo(0,0)}
+window.addEventListener("hashchange",function(){route()});
+document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href^='#']");if(!a||e.defaultPrevented||e.button)return;var h=a.getAttribute("href");if(h.length<2)return;e.preventDefault();try{location.hash=h}catch(x){}route(h)});
 $("wa").href=wa("Hi! I have a question about your products.");
 home();save();route();
 idb({}).then(function(o){if(o&&o.v>D.v){D=o;fix();home();route()}}).catch(function(){});
