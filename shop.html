@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shop COSRX Skincare | Aurea</title>
+<meta name="description" content="Filter authentic COSRX skincare by category, skin type and price. Order on WhatsApp.">
+<meta property="og:title" content="Shop COSRX Skincare | Aurea"><meta property="og:description" content="Filter authentic COSRX skincare by category, skin type and price. Order on WhatsApp.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="style.css"></head><body>
+<div class="bar">100% authentic COSRX. Order on WhatsApp and we confirm delivery with you.</div>
+<header><div class="w"><a class="logo" href="./">Aurea</a><nav class="nav"><a href="./">Home</a><a href="shop.html" class="on" aria-current="page">Shop</a></nav>
+<input class="srch" id="q" type="search" placeholder="Search products, e.g. snail, SPF, BHA" aria-label="Search products">
+<button class="btn pop" id="cb">Cart (<span id="cc">0</span>)</button></div></header>
+<div class="hero pg"><div class="w"><h1>Shop COSRX</h1><p style="margin-bottom:0">Filter by skin type, category and price.</p></div></div>
+<div class="w shop" id="shop">
+<aside class="sb" id="sb" aria-label="Filters">
+<h3>Category</h3><div id="fc"></div>
+<h3>Skin type</h3><div id="fs"></div>
+<h3>Max price: <span id="pv"></span></h3><input type="range" id="pr" min="2500" max="5500" step="100" value="5500" aria-label="Maximum price">
+<h3>Availability</h3><label><input type="checkbox" id="is">In stock only</label>
+<p style="margin:18px 0 0"><button class="btn o" id="clr" style="width:100%">Clear filters</button></p>
+<p style="margin:12px 0 0"><button class="btn" id="sc" style="width:100%;display:none">Show results</button></p></aside>
+<div><div class="tb"><button class="btn o fbtn" id="fb">Filters</button><p id="rc" role="status"></p>
+<label>Sort by <select id="so"><option value="f">Featured</option><option value="a">Price: low to high</option><option value="d">Price: high to low</option><option value="n">Name: A to Z</option></select></label></div>
+<div class="grid" id="grid"></div></div></div>
+
+
+<footer><div class="w"><span>&copy; 2026 Aurea</span><span>Independent reseller. Not affiliated with COSRX.</span></div></footer>
+<dialog id="md"></dialog><div class="ov" id="ov"></div>
+<aside class="dr" id="dr" aria-label="Cart"><h2>Your cart</h2><div class="dl" id="dl"></div>
+<div class="tot" style="font:400 15px 'DM Sans',sans-serif;margin:8px 0 0"><span>Subtotal</span><span id="st"></span></div><div class="tot" style="font:400 15px 'DM Sans',sans-serif;margin:4px 0"><span>Delivery</span><span id="dv"></span></div><div class="tot"><span>Total</span><span id="tt"></span></div>
+<input id="nm" placeholder="Full name" autocomplete="name"><input id="ph" type="tel" placeholder="Phone number" autocomplete="tel"><input id="ad" placeholder="Delivery address" autocomplete="street-address">
+<p id="er" role="alert" style="color:#9b2c2c;font-size:14px;margin:8px 0 0"></p>
+<p style="margin:12px 0 0"><button class="btn" id="wa" style="width:100%">Send order on WhatsApp</button></p>
+<p style="margin:8px 0 0;text-align:center"><button class="btn o" id="cl" style="border:0">Keep browsing</button></p></aside>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+function match(p,skipCat){return(skipCat||F.c==="All"||p.c===F.c)&&p.price<=F.max&&(!F.st||p.stock>0)&&(!F.q||(p.n+" "+p.c+" "+p.ing.join(" ")+" "+p.d).toLowerCase().indexOf(F.q)>-1)&&(!F.s.length||p.skin.indexOf("All")>-1||F.s.some(function(s){return p.skin.indexOf(s)>-1}))}
+function draw(){
+$("fc").innerHTML=cats.map(function(c){var n=P.filter(function(p){return match(p,1)&&(c==="All"||p.c===c)}).length;return'<label><input type="radio" name="c" value="'+c+'"'+(F.c===c?" checked":"")+'>'+c+'<span>'+n+'</span></label>'}).join("");
+$("fs").innerHTML=skins.map(function(s){return'<label><input type="checkbox" value="'+s+'"'+(F.s.indexOf(s)>-1?" checked":"")+'>'+s+'</label>'}).join("");
+$("pv").textContent=m(F.max);
+var L=P.filter(function(p){return match(p)});
+if(F.o==="a")L.sort(function(a,b){return a.price-b.price});if(F.o==="d")L.sort(function(a,b){return b.price-a.price});if(F.o==="n")L.sort(function(a,b){return a.n.localeCompare(b.n)});
+$("rc").textContent=L.length+(L.length===1?" product":" products");
+$("grid").innerHTML=L.length?L.map(card).join(""):'<div class="empty"><p>No products match these filters.</p><button class="btn" id="e2">Clear filters</button></div>';
+if($("e2"))$("e2").onclick=reset}
+function reset(){F={c:"All",s:[],max:MX,st:false,q:"",o:"f"};$("pr").value=MX;$("is").checked=false;$("q").value="";$("so").value="f";draw()}
+function fl(on){$("sb").classList.toggle("on",on);$("sc").style.display=on?"block":"none";$("ov").classList.toggle("on",on)}
+$("fc").onchange=function(e){F.c=e.target.value;draw()};
+$("fs").onchange=function(e){var s=e.target.value,i=F.s.indexOf(s);e.target.checked?F.s.push(s):F.s.splice(i,1);draw()};
+$("pr").oninput=function(e){F.max=+e.target.value;draw()};$("is").onchange=function(e){F.st=e.target.checked;draw()};
+$("so").onchange=function(e){F.o=e.target.value;draw()};$("q").oninput=function(e){F.q=e.target.value.trim().toLowerCase();draw()};
+$("clr").onclick=reset;$("fb").onclick=function(){fl(true)};$("sc").onclick=function(){fl(false)};
+var u=new URLSearchParams(location.search);
+if(cats.indexOf(u.get("cat"))>-1)F.c=u.get("cat");if(skins.indexOf(u.get("skin"))>-1)F.s=[u.get("skin")];if(u.get("q")){F.q=u.get("q").trim().toLowerCase();$("q").value=u.get("q")}
+$("pr").min=0;$("pr").max=MX;$("pr").value=MX;
+draw();
+</script></body></html>
