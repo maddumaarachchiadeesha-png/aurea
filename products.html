@@ -62,7 +62,7 @@ function rc(){var L=lines(),t=0;L.forEach(function(l){t+=l.p.price*l.q});$("st")
 $("dl").innerHTML=L.length?L.map(function(l){return'<div class="li"><span>'+l.p.n+'</span><b>'+m(l.p.price*l.q)+'</b><span class="qty"><button data-q="'+l.p.id+'" data-d="-1" aria-label="Less">&minus;</button><span>'+l.q+'</span><button data-q="'+l.p.id+'" data-d="1" aria-label="More">+</button></span></div>'}).join(""):'<p style="color:var(--mute)">Your cart is empty. Add something you like.</p>'}
 function dr(on){$("dr").classList.toggle("on",on);$("ov").classList.toggle("on",on||$("sb").classList.contains("on"))}
 function fl(on){$("sb").classList.toggle("on",on);$("sc").style.display=on?"block":"none";$("ov").classList.toggle("on",on)}
-function open(id){sel=get(id);pq=1;var p=sel;
+function openItem(id){sel=get(id);pq=1;var p=sel;
 $("md").innerHTML='<button class="x" id="mx" aria-label="Close">&times;</button><div class="dg"><div class="tile c-'+p.c+'">'+pk(p)+bd(p)+'</div><div class="di"><small>'+p.c+' &middot; '+p.size+'</small><h2>'+p.n+'</h2><div class="pr">'+m(p.price)+'</div><p>'+p.d+'</p>'+
 '<dl class="fa"><dt>Skin type</dt><dd>'+(p.skin[0]==="All"?"All skin types":p.skin.join(", "))+'</dd><dt>Use</dt><dd>'+p.when+'</dd><dt>Size</dt><dd>'+p.size+'</dd></dl>'+
 '<details open><summary>Benefits</summary><ul>'+p.ben.map(function(b){return"<li>"+b+"</li>"}).join("")+'</ul></details><details><summary>Key ingredients</summary><ul>'+p.ing.map(function(b){return"<li>"+b+"</li>"}).join("")+'</ul></details><details><summary>How to use</summary><p>'+p.use+'</p><p><b>Tip:</b> '+p.tip+'</p></details>'+
@@ -74,7 +74,7 @@ if(e.target.id==="mx")$("md").close();
 if(e.target.id==="mq-"||e.target.id==="mq+"){pq=Math.max(1,Math.min(sel.stock,pq+(e.target.id==="mq+"?1:-1)));$("mqn").textContent=pq}
 if(e.target.id==="ma"){add(sel.id,pq);$("md").close();dr(true)}
 if(!t)return;var d=t.dataset;
-if(d.o)open(d.o);
+if(d.o)openItem(d.o);
 if(d.a){add(d.a,1);t.textContent="\u2713";setTimeout(function(){t.textContent="+"},900)}
 if(d.q){var q=(cart[d.q]||0)+ +d.d;if(q<1)delete cart[d.q];else cart[d.q]=Math.min(get(d.q).stock,q);save()}
 if(d.s){var i=F.s.indexOf(d.s);i>-1?F.s.splice(i,1):F.s.push(d.s);draw();$("shop").scrollIntoView()}
@@ -91,7 +91,7 @@ if(!L.length){$("er").textContent="Your cart is empty.";return}
 if(!n||ph.replace(/\D/g,"").length<9||a.length<6){$("er").textContent="Please enter your name, a working phone number and your delivery address.";return}
 $("er").textContent="";L.forEach(function(l){t+=l.p.price*l.q});
 var msg="Hi Aurea, I would like to order:\n"+L.map(function(l){return"- "+l.q+" x "+l.p.n+" ("+m(l.p.price*l.q)+")"}).join("\n")+"\n\nSubtotal: "+m(t)+"\nName: "+n+"\nPhone: "+ph+"\nAddress: "+a;
-window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank","noopener")};
+var w=window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank");if(!w)location.href="https://wa.me/"+WA+"?text="+encodeURIComponent(msg)};
 var u=new URLSearchParams(location.search);if(cats.indexOf(u.get("c"))>-1)F.c=u.get("c");u.getAll("s").forEach(function(x){if(skins.indexOf(x)>-1)F.s.push(x)});
 draw();save();if(location.hash==="#cart")dr(true);
 document.querySelectorAll("[data-wa]").forEach(function(a){a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(a.dataset.wa)});
