@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shop COSRX Skincare | Aurea</title>
+<meta name="description" content="Shop authentic COSRX skincare: snail mucin, BHA, AHA, cleansers and sun care. Filter by skin type and order on WhatsApp.">
+<meta property="og:title" content="Aurea | Authentic COSRX Skincare"><meta property="og:description" content="Genuine COSRX, hand-packed. Order on WhatsApp.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="style.css"></head><body data-t="products">
+<div class="bar">100% authentic COSRX. Order on WhatsApp and we confirm delivery with you.</div>
+<header><div class="w"><a class="logo" href="index.html">Aurea</a><nav class="nv"><a href="index.html">Home</a><a href="about.html">About Us</a><a href="services.html">Our Services</a><a href="products.html" class="on">Products</a></nav><input class="srch" id="q" type="search" placeholder="Search products, e.g. snail, SPF, BHA" aria-label="Search products"><button class="btn pop" id="cb">Cart (<span id="cc">0</span>)</button></div></header>
+
+<div class="w" style="padding-top:36px"><h1 style="font-size:clamp(32px,5vw,52px)">Shop COSRX</h1><p style="color:var(--mute);margin:8px 0 0">Filter by category, skin type and price. Tap a product for full details.</p></div>
+<div class="w shop" id="shop">
+<aside class="sb" id="sb" aria-label="Filters">
+<h3>Category</h3><div id="fc"></div>
+<h3>Skin type</h3><div id="fs"></div>
+<h3>Max price: <span id="pv"></span></h3><input type="range" id="pr" min="2500" max="5500" step="100" value="5500" aria-label="Maximum price">
+<h3>Availability</h3><label><input type="checkbox" id="is">In stock only</label>
+<p style="margin:18px 0 0"><button class="btn o" id="clr" style="width:100%">Clear filters</button></p>
+<p style="margin:12px 0 0"><button class="btn" id="sc" style="width:100%;display:none">Show results</button></p></aside>
+<div><div class="tb"><button class="btn o fbtn" id="fb">Filters</button><p id="rc" role="status"></p>
+<label>Sort by <select id="so"><option value="f">Featured</option><option value="a">Price: low to high</option><option value="d">Price: high to low</option><option value="n">Name: A to Z</option></select></label></div>
+<div class="grid" id="grid"></div></div></div>
+
+<footer><div class="w fg"><div><a class="logo" href="index.html">Aurea</a><p style="color:#cfe0d6">Authentic COSRX skincare, hand-packed and delivered across Sri Lanka.</p></div><div><h4>Pages</h4><a href="index.html">Home</a><a href="about.html">About Us</a><a href="services.html">Our Services</a><a href="products.html">Products</a></div><div><h4>Shop</h4><a href="products.html?c=Cleanse">Cleansers</a><a href="products.html?c=Treat">Treatments</a><a href="products.html?c=Hydrate">Hydration</a><a href="products.html?c=Protect">Sun care</a></div><div><h4>Contact</h4><a data-wa="Hello Aurea!" target="_blank" rel="noopener">WhatsApp us</a><a data-k="email">email</a><span data-k="hours"></span><a data-k="ig" target="_blank" rel="noopener">Instagram</a><a data-k="fb" target="_blank" rel="noopener">Facebook</a></div></div><div class="w fb"><span>&copy; 2026 Aurea. Independent reseller, not affiliated with COSRX.</span></div></footer>
+
+<a class="fw" data-wa="Hello Aurea, I need help choosing a product." target="_blank" rel="noopener">Chat on WhatsApp</a><nav class="bn"><a href="index.html">Home</a><a href="products.html">Products</a><a href="products.html#cart">Cart</a></nav><dialog id="md"></dialog><div class="ov" id="ov"></div>
+<aside class="dr" id="dr" aria-label="Cart"><h2>Your cart</h2><div class="dl" id="dl"></div>
+<div class="tot"><span>Subtotal</span><span id="st"></span></div>
+<input id="nm" placeholder="Full name" autocomplete="name"><input id="ph" type="tel" placeholder="Phone number" autocomplete="tel"><input id="ad" placeholder="Delivery address" autocomplete="street-address">
+<p id="er" role="alert" style="color:#9b2c2c;font-size:14px;margin:8px 0 0"></p>
+<p style="margin:12px 0 0"><button class="btn" id="wa" style="width:100%">Send order on WhatsApp</button></p>
+<p style="margin:8px 0 0;text-align:center"><button class="btn o" id="cl" style="border:0">Keep browsing</button></p></aside>
+
+<script src="site.js"></script>
+<script>
+/* EDIT HERE: your products and stock. WhatsApp number is in site.js */
+var P=[
+{id:"snail96",n:"Advanced Snail 96 Mucin Power Essence",c:"Hydrate",t:"tube",l:"SNAIL 96",price:4800,stock:12,size:"100 ml",skin:["All"],when:"Morning and night",d:"A lightweight, watery essence made of 96% snail secretion filtrate that hydrates, soothes and helps skin look repaired and bouncy.",ing:["Snail secretion filtrate (96.3%)","Betaine","Sodium hyaluronate"],ben:["Deep, lightweight hydration","Calms dry, tired skin","Soft, glassy finish"],use:"After cleansing and toner, pat 2 to 3 pumps into the face morning and night.",tip:"Great as your first hydrating step under cream."},
+{id:"snail92",n:"Advanced Snail 92 All-in-One Cream",c:"Hydrate",t:"jar",l:"SNAIL 92",price:5200,stock:8,size:"100 g",skin:["All"],when:"Morning and night",d:"A soft gel-cream with 92% snail secretion filtrate that moisturises and nourishes in one step.",ing:["Snail secretion filtrate (92%)","Betaine","Allantoin"],ben:["Comfortable daily moisture","Smooths and softens","Suits dry and normal skin best"],use:"Apply a small amount as the last step of your night routine, or in the morning before SPF.",tip:"A little goes a long way."},
+{id:"gelcl",n:"Low pH Good Morning Gel Cleanser",c:"Cleanse",t:"tube",l:"GEL CLEANSER",price:2900,stock:15,size:"150 ml",skin:["Oily","Combination","Sensitive"],when:"Morning (or night)",d:"A gentle, slightly acidic gel cleanser that matches skin's natural pH for a fresh, non-tight finish.",ing:["Tea tree leaf oil","Betaine salicylate (BHA)","Low pH formula (about 5 to 6)"],ben:["Removes oil and light dirt","Does not leave skin tight","Refreshing morning start"],use:"Massage onto damp skin, then rinse with lukewarm water.",tip:"Use a separate oil cleanser first if you wear makeup or sunscreen."},
+{id:"salic",n:"Salicylic Acid Daily Gentle Cleanser",c:"Cleanse",t:"tube",l:"SALICYLIC",price:3100,stock:3,size:"150 ml",skin:["Oily","Combination"],when:"Morning or night",d:"A daily cleanser with salicylic acid that clears pores and helps keep breakouts in check without over-drying.",ing:["Salicylic acid (BHA)","Tea tree leaf oil","Low pH formula"],ben:["Unclogs pores","Helps with blackheads and oil","Gentle enough for daily use"],use:"Use once or twice daily on damp skin, then rinse well.",tip:"Start once a day if your skin is new to acids."},
+{id:"bha",n:"BHA Blackhead Power Liquid",c:"Treat",t:"bottle",l:"BHA LIQUID",price:3600,stock:10,size:"100 ml",skin:["Oily","Combination"],when:"Night, 2 to 3 times a week",d:"A leave-on exfoliating liquid with 4% betaine salicylate that smooths texture and unclogs pores.",ing:["Betaine salicylate (4%)","Willow bark water","Niacinamide"],ben:["Reduces blackheads","Refines pores and texture","Less irritating than plain BHA"],use:"Apply with a cotton pad after cleansing, 2 to 3 nights a week. Use SPF in the morning.",tip:"Do not combine with AHA on the same night."},
+{id:"aha",n:"AHA 7 Whitehead Power Liquid",c:"Treat",t:"bottle",l:"AHA 7",price:3600,stock:0,size:"50 ml",skin:["Normal","Combination","Dry"],when:"Night, 2 to 3 times a week",d:"A leave-on exfoliating liquid with 7% glycolic acid that brightens dull skin and smooths rough texture.",ing:["Glycolic acid (AHA, 7%)","Tea tree leaf oil","Allantoin"],ben:["Brightens dull skin","Smooths bumpy texture","Helps with whiteheads"],use:"Apply with a cotton pad at night, 2 to 3 times a week. Use SPF in the morning.",tip:"Skip if your skin is very sensitive or irritated."},
+{id:"prop",n:"Full Fit Propolis Light Ampoule",c:"Hydrate",t:"drop",l:"PROPOLIS",price:4400,stock:6,size:"30 ml",skin:["Oily","Combination","Sensitive"],when:"Morning and night",d:"A light, glowy ampoule rich in propolis extract that nourishes and calms without feeling heavy.",ing:["Propolis extract (83%)","Sunflower seed oil","Panthenol"],ben:["Healthy-looking glow","Light nourishment","Soothes dull, stressed skin"],use:"Press a few drops into clean skin before moisturiser.",tip:"Avoid if you are allergic to bee products."},
+{id:"sun",n:"Aloe Soothing Sun Cream SPF50+",c:"Protect",t:"tube",l:"ALOE SUN",price:3900,stock:9,size:"50 ml",skin:["All"],when:"Every morning",d:"A light, comfortable daily sunscreen with SPF50+ PA+++ and aloe to keep skin soothed outdoors.",ing:["Aloe leaf extract","SPF50+ PA+++ filters"],ben:["Broad daily sun protection","Light, non-greasy feel","Soothing aloe"],use:"Apply generously as the last morning step. Reapply every 2 hours when outdoors.",tip:"Use about two finger-lengths for the face and neck."}];
+var $=function(i){return document.getElementById(i)},cats=["All","Cleanse","Treat","Hydrate","Protect"],skins=["Oily","Combination","Dry","Normal","Sensitive"],
+F={c:"All",s:[],max:5500,st:false,q:"",o:"f"},cart={},sel=null,pq=1;
+try{cart=JSON.parse(localStorage.getItem("aurea")||"{}")}catch(e){}
+function m(n){return"Rs. "+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,",")}
+function pk(p){return'<div class="pk '+p.t+'"><i>'+p.l+'</i></div>'}
+function bd(p){return p.stock<=0?'<span class="badge out">Out of stock</span>':p.stock<=5?'<span class="badge low">Only '+p.stock+' left</span>':""}
+function get(id){return P.filter(function(p){return p.id===id})[0]}
+function match(p,skipCat){return(skipCat||F.c==="All"||p.c===F.c)&&p.price<=F.max&&(!F.st||p.stock>0)&&(!F.q||(p.n+" "+p.c+" "+p.ing.join(" ")+" "+p.d).toLowerCase().indexOf(F.q)>-1)&&(!F.s.length||p.skin.indexOf("All")>-1||F.s.some(function(s){return p.skin.indexOf(s)>-1}))}
+function draw(){
+$("fc").innerHTML=cats.map(function(c){var n=P.filter(function(p){return match(p,1)&&(c==="All"||p.c===c)}).length;return'<label><input type="radio" name="c" value="'+c+'"'+(F.c===c?" checked":"")+'>'+c+'<span>'+n+'</span></label>'}).join("");
+$("fs").innerHTML=skins.map(function(s){return'<label><input type="checkbox" value="'+s+'"'+(F.s.indexOf(s)>-1?" checked":"")+'>'+s+'</label>'}).join("");
+$("pv").textContent=m(F.max);
+var L=P.filter(function(p){return match(p)});
+if(F.o==="a")L.sort(function(a,b){return a.price-b.price});if(F.o==="d")L.sort(function(a,b){return b.price-a.price});if(F.o==="n")L.sort(function(a,b){return a.n.localeCompare(b.n)});
+$("rc").textContent=L.length+(L.length===1?" product":" products");
+$("grid").innerHTML=L.length?L.map(function(p){return'<article class="card"><button class="tile c-'+p.c+'" data-o="'+p.id+'" aria-label="View '+p.n+'">'+pk(p)+bd(p)+'</button><div class="cb"><small>'+p.c+" &middot; "+p.size+'</small><h3>'+p.n+'</h3><div class="sk">'+p.skin.map(function(s){return"<i>"+s+"</i>"}).join("")+'</div><div class="row"><span class="pr">'+m(p.price)+'</span><button class="add" data-a="'+p.id+'" aria-label="Add '+p.n+' to cart"'+(p.stock<1?" disabled":"")+'>+</button></div></div></article>'}).join(""):'<div class="empty"><p>No products match these filters.</p><button class="btn" id="e2">Clear filters</button></div>';
+if($("e2"))$("e2").onclick=reset}
+function reset(){F={c:"All",s:[],max:5500,st:false,q:"",o:"f"};$("pr").value=5500;$("is").checked=false;$("q").value="";$("so").value="f";draw()}
+function save(){try{localStorage.setItem("aurea",JSON.stringify(cart))}catch(e){}var n=0;for(var k in cart)n+=cart[k];$("cc").textContent=n;rc()}
+function add(id,q){var p=get(id);cart[id]=Math.min(p.stock,(cart[id]||0)+q);save()}
+function lines(){return Object.keys(cart).map(function(k){var p=get(k);return p&&{p:p,q:cart[k]}}).filter(Boolean)}
+function rc(){var L=lines(),t=0;L.forEach(function(l){t+=l.p.price*l.q});$("st").textContent=m(t);
+$("dl").innerHTML=L.length?L.map(function(l){return'<div class="li"><span>'+l.p.n+'</span><b>'+m(l.p.price*l.q)+'</b><span class="qty"><button data-q="'+l.p.id+'" data-d="-1" aria-label="Less">&minus;</button><span>'+l.q+'</span><button data-q="'+l.p.id+'" data-d="1" aria-label="More">+</button></span></div>'}).join(""):'<p style="color:var(--mute)">Your cart is empty. Add something you like.</p>'}
+function dr(on){$("dr").classList.toggle("on",on);$("ov").classList.toggle("on",on||$("sb").classList.contains("on"))}
+function fl(on){$("sb").classList.toggle("on",on);$("sc").style.display=on?"block":"none";$("ov").classList.toggle("on",on)}
+function open(id){sel=get(id);pq=1;var p=sel;
+$("md").innerHTML='<button class="x" id="mx" aria-label="Close">&times;</button><div class="dg"><div class="tile c-'+p.c+'">'+pk(p)+bd(p)+'</div><div class="di"><small>'+p.c+' &middot; '+p.size+'</small><h2>'+p.n+'</h2><div class="pr">'+m(p.price)+'</div><p>'+p.d+'</p>'+
+'<dl class="fa"><dt>Skin type</dt><dd>'+(p.skin[0]==="All"?"All skin types":p.skin.join(", "))+'</dd><dt>Use</dt><dd>'+p.when+'</dd><dt>Size</dt><dd>'+p.size+'</dd></dl>'+
+'<details open><summary>Benefits</summary><ul>'+p.ben.map(function(b){return"<li>"+b+"</li>"}).join("")+'</ul></details><details><summary>Key ingredients</summary><ul>'+p.ing.map(function(b){return"<li>"+b+"</li>"}).join("")+'</ul></details><details><summary>How to use</summary><p>'+p.use+'</p><p><b>Tip:</b> '+p.tip+'</p></details>'+
+'<div style="margin-top:20px">'+(p.stock>0?'<span class="qty"><button id="mq-" aria-label="Less">&minus;</button><span id="mqn">1</span><button id="mq+" aria-label="More">+</button></span><button class="btn" id="ma">Add to cart</button>':'<button class="btn" disabled>Out of stock</button>')+'</div></div></div>';
+$("md").showModal()}
+document.addEventListener("click",function(e){var t=e.target.closest("[data-o],[data-a],[data-q],[data-s],[data-c]");
+if(e.target.id==="md")$("md").close();
+if(e.target.id==="mx")$("md").close();
+if(e.target.id==="mq-"||e.target.id==="mq+"){pq=Math.max(1,Math.min(sel.stock,pq+(e.target.id==="mq+"?1:-1)));$("mqn").textContent=pq}
+if(e.target.id==="ma"){add(sel.id,pq);$("md").close();dr(true)}
+if(!t)return;var d=t.dataset;
+if(d.o)open(d.o);
+if(d.a){add(d.a,1);t.textContent="\u2713";setTimeout(function(){t.textContent="+"},900)}
+if(d.q){var q=(cart[d.q]||0)+ +d.d;if(q<1)delete cart[d.q];else cart[d.q]=Math.min(get(d.q).stock,q);save()}
+if(d.s){var i=F.s.indexOf(d.s);i>-1?F.s.splice(i,1):F.s.push(d.s);draw();$("shop").scrollIntoView()}
+if(d.c){F.c=d.c;draw();$("shop").scrollIntoView()}});
+$("fc").onchange=function(e){F.c=e.target.value;draw()};
+$("fs").onchange=function(e){var s=e.target.value,i=F.s.indexOf(s);e.target.checked?F.s.push(s):F.s.splice(i,1);draw()};
+$("pr").oninput=function(e){F.max=+e.target.value;draw()};$("is").onchange=function(e){F.st=e.target.checked;draw()};
+$("so").onchange=function(e){F.o=e.target.value;draw()};$("q").oninput=function(e){F.q=e.target.value.trim().toLowerCase();draw()};
+$("clr").onclick=reset;$("fb").onclick=function(){fl(true)};$("sc").onclick=function(){fl(false)};
+$("cb").onclick=function(){dr(true)};$("cl").onclick=function(){dr(false)};
+$("ov").onclick=function(){dr(false);fl(false)};
+$("wa").onclick=function(){var L=lines(),n=$("nm").value.trim(),ph=$("ph").value.trim(),a=$("ad").value.trim(),t=0;
+if(!L.length){$("er").textContent="Your cart is empty.";return}
+if(!n||ph.replace(/\D/g,"").length<9||a.length<6){$("er").textContent="Please enter your name, a working phone number and your delivery address.";return}
+$("er").textContent="";L.forEach(function(l){t+=l.p.price*l.q});
+var msg="Hi Aurea, I would like to order:\n"+L.map(function(l){return"- "+l.q+" x "+l.p.n+" ("+m(l.p.price*l.q)+")"}).join("\n")+"\n\nSubtotal: "+m(t)+"\nName: "+n+"\nPhone: "+ph+"\nAddress: "+a;
+window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank","noopener")};
+var u=new URLSearchParams(location.search);if(cats.indexOf(u.get("c"))>-1)F.c=u.get("c");u.getAll("s").forEach(function(x){if(skins.indexOf(x)>-1)F.s.push(x)});
+draw();save();if(location.hash==="#cart")dr(true);
+document.querySelectorAll("[data-wa]").forEach(function(a){a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(a.dataset.wa)});
+</script></body></html>
