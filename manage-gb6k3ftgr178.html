@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Aurea Admin</title>
+<style>
+:root{--g:#18543A;--ink:#0F2A1E;--mute:#58695F;--line:#E1E9E3;--mint:#D4EFDF;--pop:#F6D54A;--bg:#F4F8F5;--bad:#B3261E}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--g);color:#fff;padding:12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:5}
+header img{height:26px}header b{font-size:15px;opacity:.9}header .sp{flex:1}
+button,.bt{font:inherit;font-weight:600;border:0;border-radius:10px;padding:9px 16px;cursor:pointer;background:var(--g);color:#fff;text-decoration:none;display:inline-block}
+button:hover{filter:brightness(1.15)}button.pop{background:var(--pop);color:var(--ink)}button.o{background:#fff;color:var(--g);border:1.5px solid var(--g)}button.d{background:#fff;color:var(--bad);border:1.5px solid var(--bad)}button.s{padding:5px 10px;font-size:13px}button:disabled{opacity:.4;cursor:not-allowed}
+#gate{max-width:360px;margin:12vh auto;background:#fff;padding:28px;border-radius:18px;border:1px solid var(--line);text-align:center}
+#gate img{height:30px;margin-bottom:14px}input,select,textarea{font:inherit;width:100%;padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}input:focus,select:focus,textarea:focus{outline:2px solid var(--g);border-color:var(--g)}
+textarea{min-height:80px;resize:vertical}label{display:block;font-weight:600;font-size:13px;margin:12px 0 4px;color:var(--mute)}label small{font-weight:400}
+#app{display:grid;grid-template-columns:290px 1fr;gap:18px;max-width:1150px;margin:18px auto;padding:0 14px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+#list .it{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;cursor:pointer;border:1.5px solid transparent}#list .it:hover{background:var(--bg)}#list .it.on{border-color:var(--g);background:var(--mint)}
+#list .it img{width:42px;height:42px;object-fit:contain;border-radius:8px;background:#fff;border:1px solid var(--line)}#list .it span{flex:1;min-width:0}#list .it b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#list .it small{color:var(--mute)}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:6px}
+.ph .p{position:relative;border:1.5px solid var(--line);border-radius:12px;padding:6px;background:#fff;text-align:center}.ph .p img{width:100%;aspect-ratio:1;object-fit:contain}.ph .p .n{position:absolute;top:4px;left:4px;background:var(--g);color:#fff;border-radius:6px;font-size:11px;padding:1px 6px}
+.ph .p div{display:flex;gap:4px;justify-content:center;margin-top:4px}.ph .p button{padding:2px 8px;font-size:14px}
+.add{display:flex;align-items:center;justify-content:center;aspect-ratio:1;border:2px dashed var(--g);border-radius:12px;color:var(--g);font-weight:700;cursor:pointer;text-align:center;font-size:13px}
+.note{background:var(--mint);border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:14px}.note ol{margin:6px 0 0;padding-left:20px}
+#msg{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:12px;display:none;z-index:9;max-width:90vw}
+@media(max-width:800px){#app{grid-template-columns:1fr}}
+</style></head><body>
+
+<div id="gate"><img src="logo-green.png" alt="Aurea"><h2 style="margin:0 0 6px">Admin</h2><p style="color:var(--mute);margin:0 0 14px">Enter the admin passcode</p>
+<input id="pw" type="password" placeholder="Passcode" autocomplete="current-password"><p id="pe" style="color:var(--bad);min-height:20px;margin:6px 0"></p><button id="go" style="width:100%">Open admin</button></div>
+
+<div id="main" hidden>
+<header><img src="logo-white.png" alt="Aurea"><b>Admin</b><span class="sp"></span><button class="pop" id="dl">Download update (.zip)</button></header>
+<div id="app">
+<div class="panel"><div class="note" id="howto"><b>How to publish changes</b><ol><li>Edit products and photos here.</li><li>Click <b>Download update (.zip)</b>.</li><li>Unzip it into your site folder, replacing <code>products.js</code> and the <code>images</code> folder.</li><li>Upload the site folder again to your host.</li></ol></div>
+<div style="display:flex;gap:8px;margin-bottom:10px"><button id="new" class="s" style="flex:1">+ Add product</button><label class="bt o s" style="margin:0;border:1.5px solid var(--g);background:#fff;color:var(--g)">Load products.js<input id="ld" type="file" accept=".js" hidden></label></div>
+<div id="list"></div></div>
+<div class="panel" id="ed"></div></div></div>
+<div id="msg" role="status"></div>
+
+<script>
+/* Change this passcode. NOTE: it only hides the page, it is not strong security. Keep the admin address private. */
+var PASS="aurea2026";
+var $=function(i){return document.getElementById(i)};
+var P=[],cur=-1,dirty=false,CATS=["Cleanse","Treat","Hydrate","Protect"],TYPES=["tube","jar","bottle","drop"],MAX=10;
+function say(t){var m=$("msg");m.textContent=t;m.style.display="block";clearTimeout(say.t);say.t=setTimeout(function(){m.style.display="none"},3500)}
+$("go").onclick=function(){if($("pw").value===PASS){$("gate").hidden=true;$("main").hidden=false;load()}else $("pe").textContent="Wrong passcode"};
+$("pw").onkeydown=function(e){if(e.key==="Enter")$("go").click()};
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
+
+/* ---------- load ---------- */
+function parse(txt){var f=new Function(txt+";return P");return f()}
+function adopt(arr){P=arr.map(function(p){var n=Math.max(1,Math.min(p.pics||1,MAX));p.pics=n;p.ph=[];for(var i=1;i<=n;i++)p.ph.push({url:"images/"+p.id+(i>1?"-"+i:"")+".jpg",blob:null,old:true});return p});cur=P.length?0:-1;dirty=false;render();P.forEach(function(p){p.ph.slice().forEach(function(x){var im=new Image();im.onerror=function(){var k=p.ph.indexOf(x);if(k>=0){p.ph.splice(k,1);if(P[cur]===p||$("list"))render()}};im.src=x.url})})}
+function load(){fetch("products.js?"+Date.now()).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){adopt(parse(t))}).catch(function(){P=[];render();say("Could not read products.js automatically. Click Load products.js.")})}
+$("ld").onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{adopt(parse(r.result));say("Loaded "+P.length+" products")}catch(x){say("That file could not be read")}};r.readAsText(f)};
+
+/* ---------- list ---------- */
+function render(){var h="";P.forEach(function(p,i){h+='<div class="it'+(i===cur?" on":"")+'" data-i="'+i+'"><img src="'+(p.ph[0]?esc(p.ph[0].url):"")+'" alt="" onerror="this.style.visibility=\'hidden\'"><span><b>'+esc(p.n||"New product")+'</b><small>'+esc(p.c)+" · Rs. "+(p.price||0)+" · stock "+(p.stock||0)+'</small></span></div>'});$("list").innerHTML=h||'<p style="color:var(--mute)">No products yet.</p>';form()}
+$("list").onclick=function(e){var it=e.target.closest(".it");if(it){cur=+it.dataset.i;render();$("ed").scrollIntoView({behavior:"smooth"})}};
+$("new").onclick=function(){P.push({id:"",n:"",c:"Hydrate",t:"tube",l:"",price:0,stock:0,size:"",skin:["All"],when:"Morning and night",d:"",ing:[],ben:[],use:"",tip:"",pics:1,ph:[],isNew:true});cur=P.length-1;dirty=true;render()};
+
+/* ---------- form ---------- */
+function opts(a,v){var s=a.slice();if(v&&s.indexOf(v)<0)s.push(v);return s.map(function(x){return'<option'+(x===v?" selected":"")+'>'+esc(x)+'</option>'}).join("")}
+function F(k,l,v,ty,extra){return'<div><label>'+l+'</label><input data-k="'+k+'" type="'+(ty||"text")+'" value="'+esc(v)+'" '+(extra||"")+'></div>'}
+function form(){var p=P[cur],e=$("ed");if(!p){e.innerHTML='<p style="color:var(--mute)">Pick a product on the left, or add a new one.</p>';return}
+var ph=p.ph.map(function(x,i){return'<div class="p"><span class="n">'+(i+1)+(i===0?" · main":"")+'</span><img src="'+esc(x.url)+'" alt="" onerror="this.style.opacity=.2"><div><button class="s o" data-m="'+i+'" data-d="-1" '+(i?"":"disabled")+' title="Move left">&larr;</button><button class="s o" data-m="'+i+'" data-d="1" '+(i<p.ph.length-1?"":"disabled")+' title="Move right">&rarr;</button><button class="s d" data-x="'+i+'" title="Remove">&times;</button></div></div>'}).join("");
+if(p.ph.length<MAX)ph+='<label class="add">+ Add photos<br>('+p.ph.length+"/"+MAX+')<input id="up" type="file" accept="image/*" multiple hidden></label>';
+e.innerHTML='<h2 style="margin:0 0 4px">'+esc(p.n||"New product")+'</h2>'+
+'<div class="row">'+F("n","Product name",p.n)+'<div><label>Product ID <small>(letters/numbers, used for photo names)</small></label><input data-k="id" value="'+esc(p.id)+'" '+(p.isNew?"":"readonly style=\"background:#f1f4f2\"")+'></div></div>'+
+'<div class="row"><div><label>Category</label><select data-k="c">'+opts(CATS,p.c)+'</select></div><div><label>Bottle style <small>(shown if no photo)</small></label><select data-k="t">'+opts(TYPES,p.t)+'</select></div>'+F("l","Label text <small>(on bottle drawing)</small>",p.l)+'</div>'+
+'<div class="row">'+F("price","Price (Rs.)",p.price,"number",'min="0"')+F("stock","Stock (number in hand)",p.stock,"number",'min="0"')+F("size","Size (e.g. 100 ml)",p.size)+'</div>'+
+'<div class="row">'+F("skin","Skin types <small>(comma separated, or All)</small>",p.skin.join(", "))+F("when","When to use",p.when)+'</div>'+
+'<label>Description</label><textarea data-k="d">'+esc(p.d)+'</textarea>'+
+'<div class="row"><div><label>Benefits <small>(one per line)</small></label><textarea data-k="ben">'+esc(p.ben.join("\n"))+'</textarea></div><div><label>Key ingredients <small>(one per line)</small></label><textarea data-k="ing">'+esc(p.ing.join("\n"))+'</textarea></div></div>'+
+'<label>How to use</label><textarea data-k="use">'+esc(p.use)+'</textarea>'+F("tip","Tip",p.tip)+
+'<label>Photos <small>(up to '+MAX+'. First one is the main photo. Customers click a photo to see it full screen.)</small></label><div class="ph" id="ph">'+ph+'</div>'+
+'<div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap"><button class="d" id="del">Delete product</button></div>'}
+var LINE=["ben","ing"];
+$("ed").addEventListener("input",function(e){var k=e.target.dataset.k,p=P[cur];if(!k||!p)return;var v=e.target.value;dirty=true;
+if(k==="price"||k==="stock")p[k]=Math.max(0,+v||0);else if(k==="skin")p.skin=v.split(",").map(function(x){return x.trim()}).filter(Boolean);else if(LINE.indexOf(k)>=0)p[k]=v.split("\n").map(function(x){return x.trim()}).filter(Boolean);else if(k==="id")p.id=v.toLowerCase().replace(/[^a-z0-9]/g,"");else p[k]=v;
+if(k==="n"||k==="price"||k==="stock"||k==="c"){var it=$("list").querySelector(".it.on");if(it)it.querySelector("b").textContent=p.n||"New product";if(it)it.querySelector("small").textContent=p.c+" · Rs. "+(p.price||0)+" · stock "+(p.stock||0);$("ed").querySelector("h2").textContent=p.n||"New product"}
+if(k==="id"&&e.target.value!==p.id)e.target.value=p.id});
+$("ed").addEventListener("click",function(e){var p=P[cur],b=e.target.closest("button");if(!b||!p)return;
+if(b.dataset.m!==undefined){var i=+b.dataset.m,j=i+ +b.dataset.d;var t=p.ph[i];p.ph[i]=p.ph[j];p.ph[j]=t;p.touched=true;dirty=true;render()}
+else if(b.dataset.x!==undefined){p.ph.splice(+b.dataset.x,1);p.touched=true;dirty=true;render()}
+else if(b.id==="del"){if(confirm("Delete "+(p.n||"this product")+"? Its photos will stay on the server but be unused.")){P.splice(cur,1);cur=P.length?0:-1;dirty=true;render()}}});
+$("ed").addEventListener("change",function(e){if(e.target.id!=="up")return;var p=P[cur],fs=[].slice.call(e.target.files).slice(0,MAX-p.ph.length);if(e.target.files.length>fs.length)say("Only "+MAX+" photos per product. Extra files skipped.");
+Promise.all(fs.map(shrink)).then(function(bs){bs.forEach(function(b){if(b)p.ph.push({url:URL.createObjectURL(b),blob:b})});p.touched=true;dirty=true;render()})});
+function shrink(f){return new Promise(function(res){var u=URL.createObjectURL(f),im=new Image();im.onload=function(){var s=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(res,"image/jpeg",.85)};im.onerror=function(){say("Could not read "+f.name);res(null)};im.src=u})}
+
+/* ---------- export ---------- */
+function out(){var L=P.map(function(p){var o={id:p.id,n:p.n,c:p.c,t:p.t,l:p.l,price:p.price,stock:p.stock,size:p.size,skin:p.skin.length?p.skin:["All"],when:p.when,d:p.d,ing:p.ing,ben:p.ben,use:p.use,tip:p.tip,pics:Math.max(1,Math.min(p.ph.length,MAX))};return JSON.stringify(o)});
+return"/* YOUR PRODUCTS. Edit prices, stock and details in the admin page, then upload the files again.\n   Photos: images/<id>.jpg, images/<id>-2.jpg ... (up to 10). \"pics\" = how many photos. */\nvar P=[\n"+L.join(",\n")+"\n];\n"}
+function check(){var seen={};for(var i=0;i<P.length;i++){var p=P[i];if(!p.n.trim())return"Product "+(i+1)+" needs a name";if(!p.id)return'"'+p.n+'" needs a product ID';if(seen[p.id])return'Two products use the ID "'+p.id+'"';seen[p.id]=1}return""}
+var T=null;function crc(b){if(!T){T=[];for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;T[n]=c>>>0}}var c=-1;for(var i=0;i<b.length;i++)c=T[(c^b[i])&255]^(c>>>8);return(c^-1)>>>0}
+function zip(files){var enc=new TextEncoder(),parts=[],cd=[],off=0;files.forEach(function(f){var nm=enc.encode(f.name),d=f.data,cr=crc(d),h=new DataView(new ArrayBuffer(30));
+h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(8,0,true);h.setUint16(10,0,true);h.setUint16(12,0x21,true);h.setUint32(14,cr,true);h.setUint32(18,d.length,true);h.setUint32(22,d.length,true);h.setUint16(26,nm.length,true);h.setUint16(28,0,true);
+parts.push(h.buffer,nm,d);var c=new DataView(new ArrayBuffer(46));c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(8,0x0800,true);c.setUint16(12,0,true);c.setUint16(14,0x21,true);c.setUint32(16,cr,true);c.setUint32(20,d.length,true);c.setUint32(24,d.length,true);c.setUint16(28,nm.length,true);c.setUint32(42,off,true);cd.push(c.buffer,nm);off+=30+nm.length+d.length});
+var cs=0;cd.forEach(function(x){cs+=x.byteLength});var e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);return new Blob(parts.concat(cd,[e.buffer]),{type:"application/zip"})}
+function bytes(ph){return(ph.blob?Promise.resolve(ph.blob):fetch(ph.url).then(function(r){if(!r.ok)throw 0;return r.blob()})).then(function(b){return b.arrayBuffer()}).then(function(a){return new Uint8Array(a)})}
+$("dl").onclick=function(){var er=check();if(er){say(er);return}var files=[{name:"products.js",data:new TextEncoder().encode(out())}],jobs=[],bad=[];
+P.forEach(function(p){if(!p.touched&&!p.isNew)return;p.ph.forEach(function(ph,i){jobs.push(bytes(ph).then(function(d){files.push({name:"images/"+p.id+(i?"-"+(i+1):"")+".jpg",data:d})}).catch(function(){bad.push(p.n+" photo "+(i+1))}))})});
+say("Preparing...");Promise.all(jobs).then(function(){if(bad.length){say("Could not read: "+bad.join(", ")+". Open admin from your live site (not from a file), or re-add those photos.");return}
+var a=document.createElement("a");a.href=URL.createObjectURL(zip(files));a.download="aurea-update.zip";document.body.appendChild(a);a.click();a.remove();dirty=false;say("Downloaded aurea-update.zip. Unzip it into your site folder and upload.")})};
+window.onbeforeunload=function(){if(dirty)return"You have changes that are not downloaded yet."};
+</script></body></html>
