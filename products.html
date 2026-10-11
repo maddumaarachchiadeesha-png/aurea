@@ -14,7 +14,7 @@
 <aside class="sb" id="sb" aria-label="Filters">
 <h3>Category</h3><div id="fc"></div>
 <h3>Skin type</h3><div id="fs"></div>
-<h3>Max price: <span id="pv"></span></h3><input type="range" id="pr" min="0" max="10000" step="100" value="10000" aria-label="Maximum price">
+<h3>Max price: <span id="pv"></span></h3><input type="range" id="pr" min="2500" max="5500" step="100" value="5500" aria-label="Maximum price">
 <h3>Availability</h3><label><input type="checkbox" id="is">In stock only</label>
 <p style="margin:18px 0 0"><button class="btn o" id="clr" style="width:100%">Clear filters</button></p>
 <p style="margin:12px 0 0"><button class="btn" id="sc" style="width:100%;display:none">Show results</button></p></aside>
@@ -40,12 +40,12 @@
 <script>
 
 var $=function(i){return document.getElementById(i)},cats=["All","Cleanse","Treat","Hydrate","Protect"],skins=["Oily","Combination","Dry","Normal","Sensitive"],
-MX=Math.ceil(Math.max.apply(null,P.map(function(p){return p.price}))/100)*100,MN=Math.floor(Math.min.apply(null,P.map(function(p){return p.price}))/100)*100,F={c:"All",s:[],max:MX,st:false,q:"",o:"f"},cart={},sel=null,pq=1;
+F={c:"All",s:[],max:5500,st:false,q:"",o:"f"},cart={},sel=null,pq=1;
 try{cart=JSON.parse(localStorage.getItem("aurea")||"{}")}catch(e){}
 function m(n){return"Rs. "+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,",")}
 function pk(p){return'<div class="pk '+p.t+'"><i>'+p.l+'</i></div>'}
 function im(p){return'<img src="images/'+p.id+'.jpg" alt="'+p.n+'" loading="lazy" onerror="this.remove()">'}
-function bd(p){return p.stock<=0?'<span class="badge out">Out of stock</span>':'<span class="badge '+(p.stock<=4?"low":"ok")+'">In stock</span>'}
+function bd(p){return p.stock<=0?'<span class="badge out">Out of stock</span>':p.stock<=5?'<span class="badge low">Only '+p.stock+' left</span>':""}
 function get(id){return P.filter(function(p){return p.id===id})[0]}
 function match(p,skipCat){return(skipCat||F.c==="All"||p.c===F.c)&&p.price<=F.max&&(!F.st||p.stock>0)&&(!F.q||(p.n+" "+p.c+" "+p.ing.join(" ")+" "+p.d).toLowerCase().indexOf(F.q)>-1)&&(!F.s.length||p.skin.indexOf("All")>-1||F.s.some(function(s){return p.skin.indexOf(s)>-1}))}
 function draw(){
@@ -57,13 +57,13 @@ if(F.o==="a")L.sort(function(a,b){return a.price-b.price});if(F.o==="d")L.sort(f
 $("rc").textContent=L.length+(L.length===1?" product":" products");
 $("grid").innerHTML=L.length?L.map(function(p){return'<article class="card"><a class="tile c-'+p.c+'" href="product.html?id='+p.id+'" aria-label="View '+p.n+'">'+pk(p)+im(p)+bd(p)+'</a><div class="cb"><small>'+p.c+" &middot; "+p.size+'</small><h3><a href="product.html?id='+p.id+'">'+p.n+'</a></h3><div class="sk">'+p.skin.map(function(s){return"<i>"+s+"</i>"}).join("")+'</div><div class="row"><span class="pr">'+m(p.price)+'</span><button class="add" data-a="'+p.id+'" aria-label="Add '+p.n+' to cart"'+(p.stock<1?" disabled":"")+'>+</button></div></div></article>'}).join(""):'<div class="empty"><p>No products match these filters.</p><button class="btn" id="e2">Clear filters</button></div>';
 if($("e2"))$("e2").onclick=reset}
-function reset(){F={c:"All",s:[],max:MX,st:false,q:"",o:"f"};$("pr").value=MX;$("is").checked=false;$("q").value="";$("so").value="f";draw()}
+function reset(){F={c:"All",s:[],max:5500,st:false,q:"",o:"f"};$("pr").value=5500;$("is").checked=false;$("q").value="";$("so").value="f";draw()}
 function save(){try{localStorage.setItem("aurea",JSON.stringify(cart))}catch(e){}var n=0;for(var k in cart)n+=cart[k];$("cc").textContent=n;rc()}
 function add(id,q){var p=get(id);cart[id]=Math.min(p.stock,(cart[id]||0)+q);save()}
 function lines(){return Object.keys(cart).map(function(k){var p=get(k);return p&&{p:p,q:cart[k]}}).filter(Boolean)}
 function fee(){var z=document.querySelector("input[name=dz]:checked");return z?DF[z.value]:null}
 function rc(){var L=lines(),t=0;L.forEach(function(l){t+=l.p.price*l.q});$("st").textContent=m(t);var f=fee();$("df").textContent=f==null?"Choose area":m(f);$("tt").textContent=m(t+(f||0));
-$("dl").innerHTML=L.length?L.map(function(l){return'<div class="li"><span>'+l.p.n+'</span><b>'+m(l.p.price*l.q)+'</b><span class="qty"><button data-q="'+l.p.id+'" data-d="-1" aria-label="Less">&minus;</button><span>'+l.q+'</span><button data-q="'+l.p.id+'" data-d="1" aria-label="More">+</button></span></div>'}).join(""):'<p style="color:var(--mute)">Your cart is empty. Add something you like.</p>'}
+$("dl").innerHTML=L.length?L.map(function(l){return'<div class="li"><span>'+l.p.n+'</span><b>'+m(l.p.price*l.q)+'</b><span class="qty"><button data-q="'+l.p.id+'" data-d="-1" aria-label="Less">&minus;</button><span>'+l.q+'</span><button data-q="'+l.p.id+'" data-d="1" aria-label="More">+</button></span><button class="rm" data-q="'+l.p.id+'" data-d="-9999" aria-label="Remove '+l.p.n+' from cart">Remove</button></div>'}).join(""):'<p style="color:var(--mute)">Your cart is empty. Add something you like.</p>'}
 function dr(on){$("dr").classList.toggle("on",on);$("ov").classList.toggle("on",on||$("sb").classList.contains("on"))}
 function fl(on){$("sb").classList.toggle("on",on);$("sc").style.display=on?"block":"none";$("ov").classList.toggle("on",on)}
 function openItem(id){sel=get(id);pq=1;var p=sel;
@@ -98,6 +98,6 @@ $("er").textContent="";L.forEach(function(l){t+=l.p.price*l.q});
 var msg="Hi Aurea, I would like to order:\n"+L.map(function(l){return"- "+l.q+" x "+l.p.n+" ("+m(l.p.price*l.q)+")"}).join("\n")+"\n\nSubtotal: "+m(t)+"\nDelivery ("+(z.value==="in"?"Inside":"Outside")+" Colombo): "+m(DF[z.value])+"\nTotal: "+m(t+DF[z.value])+"\nName: "+n+"\nPhone: "+ph+"\nAddress: "+a;
 var w=window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank");if(!w)location.href="https://wa.me/"+WA+"?text="+encodeURIComponent(msg)};
 var u=new URLSearchParams(location.search);if(cats.indexOf(u.get("c"))>-1)F.c=u.get("c");u.getAll("s").forEach(function(x){if(skins.indexOf(x)>-1)F.s.push(x)});
-$("pr").min=MN;$("pr").max=MX;$("pr").value=MX;$("d1").textContent=m(DF.in);$("d2").textContent=m(DF.out);document.querySelectorAll("input[name=dz]").forEach(function(r){r.onchange=function(){$("er").textContent="";rc()}});draw();save();if(location.hash==="#cart")dr(true);
+$("d1").textContent=m(DF.in);$("d2").textContent=m(DF.out);document.querySelectorAll("input[name=dz]").forEach(function(r){r.onchange=function(){$("er").textContent="";rc()}});draw();save();if(location.hash==="#cart")dr(true);
 document.querySelectorAll("[data-wa]").forEach(function(a){a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(a.dataset.wa)});
 </script><script src="fx.js"></script></body></html>
