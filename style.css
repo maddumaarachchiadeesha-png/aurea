@@ -136,3 +136,12 @@ body[data-t=home] .w>section.more:last-child{margin-bottom:34px}
 .dz label:has(input:checked){border-color:var(--g);background:var(--mint)}
 .dz label b{margin-left:auto}.dr .dz input{width:auto;padding:0;margin:0;accent-color:var(--g)}
 .tot.sub{font:500 16px "DM Sans",sans-serif;margin:8px 0}
+
+/* Mobile polish */
+html,body{max-width:100%;overflow-x:clip}
+@media(max-width:700px){
+.bn a{color:var(--g)}.bn a:active{background:var(--mint)}
+body{padding-bottom:calc(66px + env(safe-area-inset-bottom,0px))}
+.fw{right:12px;bottom:calc(70px + env(safe-area-inset-bottom,0px));padding:10px 15px;font-size:14px;animation:none;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.bgfix{transform:none!important;inset:0;width:100%}
+}
