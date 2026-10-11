@@ -11,7 +11,7 @@ F={c:"All",s:[],max:MX,st:false,q:"",o:"f"},cart={},sel=null,pq=1;
 try{cart=JSON.parse(localStorage.getItem("aurea")||"{}")}catch(e){}
 function m(n){return"Rs. "+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,",")}
 function pk(p){if(p.img)return'<img class="pi" src="'+p.img+'" alt="">';return'<div class="pk '+p.t+'"><i>'+p.l+'</i></div>'}
-function bd(p){return p.stock<=0?'<span class="badge out">Out of stock</span>':p.stock<=5?'<span class="badge low">Only '+p.stock+' left</span>':""}
+function bd(p){return p.stock<=0?'<span class="badge out">Out of stock</span>':'<span class="badge '+(p.stock<=4?"low":"ok")+'">In stock</span>'}
 function get(id){return P.filter(function(p){return p.id===id})[0]}
 function card(p){return'<article class="card"><button class="tile c-'+p.c+'" data-o="'+p.id+'" aria-label="View '+p.n+'">'+pk(p)+bd(p)+'</button><div class="cb"><small>'+p.c+" &middot; "+p.size+'</small><h3>'+p.n+'</h3><div class="sk">'+p.skin.map(function(s){return"<i>"+s+"</i>"}).join("")+'</div><div class="row"><span class="pr">'+m(p.price)+'</span><button class="add" data-a="'+p.id+'" aria-label="Add '+p.n+' to cart"'+(p.stock<1?" disabled":"")+'>+</button></div></div></article>'}
 function save(){try{localStorage.setItem("aurea",JSON.stringify(cart))}catch(e){}var n=0;for(var k in cart)n+=cart[k];$("cc").textContent=n;rc()}
