@@ -26,7 +26,10 @@
 
 <a class="fw" data-wa="Hello Aurea, I need help choosing a product." target="_blank" rel="noopener">Chat on WhatsApp</a><nav class="bn"><a href="index.html">Home</a><a href="products.html">Products</a><a href="products.html#cart">Cart</a></nav><dialog id="md"></dialog><div class="ov" id="ov"></div>
 <aside class="dr" id="dr" aria-label="Cart"><h2>Your cart</h2><div class="dl" id="dl"></div>
-<div class="tot"><span>Subtotal</span><span id="st"></span></div>
+<div class="tot sub"><span>Subtotal</span><span id="st"></span></div>
+<fieldset class="dz"><legend>Delivery area</legend><label><input type="radio" name="dz" value="in"><span>Inside Colombo</span><b id="d1"></b></label><label><input type="radio" name="dz" value="out"><span>Outside Colombo</span><b id="d2"></b></label></fieldset>
+<div class="tot sub"><span>Delivery</span><span id="df">Choose area</span></div>
+<div class="tot"><span>Total</span><span id="tt"></span></div>
 <input id="nm" placeholder="Full name" autocomplete="name"><input id="ph" type="tel" placeholder="Phone number" autocomplete="tel"><input id="ad" placeholder="Delivery address" autocomplete="street-address">
 <p id="er" role="alert" style="color:#9b2c2c;font-size:14px;margin:8px 0 0"></p>
 <p style="margin:12px 0 0"><button class="btn" id="wa" style="width:100%">Send order on WhatsApp</button></p>
@@ -58,7 +61,8 @@ function reset(){F={c:"All",s:[],max:5500,st:false,q:"",o:"f"};$("pr").value=550
 function save(){try{localStorage.setItem("aurea",JSON.stringify(cart))}catch(e){}var n=0;for(var k in cart)n+=cart[k];$("cc").textContent=n;rc()}
 function add(id,q){var p=get(id);cart[id]=Math.min(p.stock,(cart[id]||0)+q);save()}
 function lines(){return Object.keys(cart).map(function(k){var p=get(k);return p&&{p:p,q:cart[k]}}).filter(Boolean)}
-function rc(){var L=lines(),t=0;L.forEach(function(l){t+=l.p.price*l.q});$("st").textContent=m(t);
+function fee(){var z=document.querySelector("input[name=dz]:checked");return z?DF[z.value]:null}
+function rc(){var L=lines(),t=0;L.forEach(function(l){t+=l.p.price*l.q});$("st").textContent=m(t);var f=fee();$("df").textContent=f==null?"Choose area":m(f);$("tt").textContent=m(t+(f||0));
 $("dl").innerHTML=L.length?L.map(function(l){return'<div class="li"><span>'+l.p.n+'</span><b>'+m(l.p.price*l.q)+'</b><span class="qty"><button data-q="'+l.p.id+'" data-d="-1" aria-label="Less">&minus;</button><span>'+l.q+'</span><button data-q="'+l.p.id+'" data-d="1" aria-label="More">+</button></span></div>'}).join(""):'<p style="color:var(--mute)">Your cart is empty. Add something you like.</p>'}
 function dr(on){$("dr").classList.toggle("on",on);$("ov").classList.toggle("on",on||$("sb").classList.contains("on"))}
 function fl(on){$("sb").classList.toggle("on",on);$("sc").style.display=on?"block":"none";$("ov").classList.toggle("on",on)}
@@ -89,10 +93,11 @@ $("ov").onclick=function(){dr(false);fl(false)};
 $("wa").onclick=function(){var L=lines(),n=$("nm").value.trim(),ph=$("ph").value.trim(),a=$("ad").value.trim(),t=0;
 if(!L.length){$("er").textContent="Your cart is empty.";return}
 if(!n||ph.replace(/\D/g,"").length<9||a.length<6){$("er").textContent="Please enter your name, a working phone number and your delivery address.";return}
+var z=document.querySelector("input[name=dz]:checked");if(!z){$("er").textContent="Please choose your delivery area: inside or outside Colombo.";return}
 $("er").textContent="";L.forEach(function(l){t+=l.p.price*l.q});
-var msg="Hi Aurea, I would like to order:\n"+L.map(function(l){return"- "+l.q+" x "+l.p.n+" ("+m(l.p.price*l.q)+")"}).join("\n")+"\n\nSubtotal: "+m(t)+"\nName: "+n+"\nPhone: "+ph+"\nAddress: "+a;
+var msg="Hi Aurea, I would like to order:\n"+L.map(function(l){return"- "+l.q+" x "+l.p.n+" ("+m(l.p.price*l.q)+")"}).join("\n")+"\n\nSubtotal: "+m(t)+"\nDelivery ("+(z.value==="in"?"Inside":"Outside")+" Colombo): "+m(DF[z.value])+"\nTotal: "+m(t+DF[z.value])+"\nName: "+n+"\nPhone: "+ph+"\nAddress: "+a;
 var w=window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank");if(!w)location.href="https://wa.me/"+WA+"?text="+encodeURIComponent(msg)};
 var u=new URLSearchParams(location.search);if(cats.indexOf(u.get("c"))>-1)F.c=u.get("c");u.getAll("s").forEach(function(x){if(skins.indexOf(x)>-1)F.s.push(x)});
-draw();save();if(location.hash==="#cart")dr(true);
+$("d1").textContent=m(DF.in);$("d2").textContent=m(DF.out);document.querySelectorAll("input[name=dz]").forEach(function(r){r.onchange=function(){$("er").textContent="";rc()}});draw();save();if(location.hash==="#cart")dr(true);
 document.querySelectorAll("[data-wa]").forEach(function(a){a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(a.dataset.wa)});
 </script><script src="fx.js"></script></body></html>

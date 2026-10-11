@@ -130,3 +130,9 @@ body[data-t=home] .tk{margin-top:0}
 body[data-t=home] .w>section.more{background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:28px;padding:34px 30px 30px;margin-top:26px;box-shadow:0 8px 30px rgba(60,40,0,.08)}
 body[data-t=home] .w>section.more:last-child{margin-bottom:34px}
 @media(max-width:700px){body[data-t=home] .hero{min-height:70vh;padding:28px 0}body[data-t=home] .hero .w{margin:0 14px;padding:26px 22px}body[data-t=home] .w>section.more{padding:26px 18px 22px;border-radius:22px}}
+/* Delivery area chooser (cart) */
+.dz{border:0;margin:6px 0 0;padding:0;display:grid;gap:8px}.dz legend{font-weight:700;font-size:14px;padding:0;margin-bottom:6px;color:var(--mute)}
+.dz label{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:14px;padding:11px 14px;cursor:pointer;background:#fff;transition:border-color .2s,background .2s}
+.dz label:has(input:checked){border-color:var(--g);background:var(--mint)}
+.dz label b{margin-left:auto}.dr .dz input{width:auto;padding:0;margin:0;accent-color:var(--g)}
+.tot.sub{font:500 16px "DM Sans",sans-serif;margin:8px 0}

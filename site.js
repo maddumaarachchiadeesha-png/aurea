@@ -1,5 +1,6 @@
-var WA="94763503675"; /* EDIT: your WhatsApp number, country code, no + or spaces */
-var C={email:"aurea20.lk@gmail.com",ig:"https://instagram.com/yourpage",fb:"https://facebook.com/yourpage",hours:"Monday to Saturday, 9:00 AM to 6:00 PM"};
+var WA="94700000000"; /* EDIT: your WhatsApp number, country code, no + or spaces */
+var DF={in:350,out:400}; /* EDIT: delivery fees in Rs. (inside / outside Colombo) */
+var C={email:"hello@yourdomain.lk",ig:"https://instagram.com/yourpage",fb:"https://facebook.com/yourpage",hours:"Monday to Saturday, 9:00 AM to 6:00 PM"};
 document.querySelectorAll("[data-wa]").forEach(function(a){a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(a.dataset.wa)});
 document.querySelectorAll("[data-k]").forEach(function(e){var k=e.dataset.k;if(k==="email"){e.textContent=C.email;e.href="mailto:"+C.email}else if(k==="hours")e.textContent=C.hours;else e.href=C[k]});
 try{var n=0,c=JSON.parse(localStorage.getItem("aurea")||"{}");for(var k in c)n+=c[k];document.querySelectorAll("[data-cc]").forEach(function(e){e.textContent=n})}catch(e){}
