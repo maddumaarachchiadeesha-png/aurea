@@ -24,7 +24,7 @@
 
 <footer><div class="w fg"><div><a class="logo" href="index.html"><img src="logo-white.png" alt="Aurea" width="148" height="28"></a><p style="color:#cfe0d6">Authentic COSRX skincare, hand-packed and delivered across Sri Lanka.</p></div><div><h4>Pages</h4><a href="index.html">Home</a><a href="about.html">About Us</a><a href="services.html">Our Services</a><a href="products.html">Products</a><a href="policy.html">Delivery &amp; Returns</a><a href="privacy.html">Privacy</a></div><div><h4>Shop</h4><a href="products.html?c=Cleanse">Cleansers</a><a href="products.html?c=Treat">Treatments</a><a href="products.html?c=Hydrate">Hydration</a><a href="products.html?c=Protect">Sun care</a></div><div><h4>Contact</h4><a data-wa="Hello Aurea!" target="_blank" rel="noopener">WhatsApp us</a><a data-k="email">email</a><span data-k="hours"></span><a data-k="ig" target="_blank" rel="noopener">Instagram</a><a data-k="fb" target="_blank" rel="noopener">Facebook</a></div></div><div class="w fb"><span>&copy; 2026 Aurea. Independent reseller, not affiliated with COSRX.</span></div></footer>
 
-<a class="fw" data-wa="Hello Aurea, I need help choosing a product." target="_blank" rel="noopener">Chat on WhatsApp</a><nav class="bn"><a href="index.html">Home</a><a href="products.html">Products</a><a href="products.html#cart">Cart</a></nav><dialog id="md"></dialog><div class="ov" id="ov"></div>
+<a class="fw" data-wa="Hello Aurea, I need help choosing a product." target="_blank" rel="noopener">Chat on WhatsApp</a><nav class="bn"><a href="index.html">Home</a><a href="products.html">Products</a><a href="cart.html">Cart</a></nav><dialog id="md"></dialog><div class="ov" id="ov"></div>
 <aside class="dr" id="dr" aria-label="Cart"><h2>Your cart</h2><div class="dl" id="dl"></div>
 <div class="tot sub"><span>Subtotal</span><span id="st"></span></div>
 <fieldset class="dz"><legend>Delivery area</legend><label><input type="radio" name="dz" value="in"><span>Inside Colombo</span><b id="d1"></b></label><label><input type="radio" name="dz" value="out"><span>Outside Colombo</span><b id="d2"></b></label></fieldset>
@@ -76,7 +76,7 @@ document.addEventListener("click",function(e){var t=e.target.closest("[data-o],[
 if(e.target.id==="md")$("md").close();
 if(e.target.id==="mx")$("md").close();
 if(e.target.id==="mq-"||e.target.id==="mq+"){pq=Math.max(1,Math.min(sel.stock,pq+(e.target.id==="mq+"?1:-1)));$("mqn").textContent=pq}
-if(e.target.id==="ma"){add(sel.id,pq);$("md").close();dr(true)}
+if(e.target.id==="ma"){add(sel.id,pq);$("md").close();location.href="cart.html"}
 if(!t)return;var d=t.dataset;
 if(d.o)openItem(d.o);
 if(d.a){add(d.a,1);t.textContent="\u2713";setTimeout(function(){t.textContent="+"},900)}
@@ -88,7 +88,7 @@ $("fs").onchange=function(e){var s=e.target.value,i=F.s.indexOf(s);e.target.chec
 $("pr").oninput=function(e){F.max=+e.target.value;draw()};$("is").onchange=function(e){F.st=e.target.checked;draw()};
 $("so").onchange=function(e){F.o=e.target.value;draw()};$("q").oninput=function(e){F.q=e.target.value.trim().toLowerCase();draw()};
 $("clr").onclick=reset;$("fb").onclick=function(){fl(true)};$("sc").onclick=function(){fl(false)};
-$("cb").onclick=function(){dr(true)};$("cl").onclick=function(){dr(false)};
+$("cb").onclick=function(){location.href="cart.html"};$("cl").onclick=function(){dr(false)};
 $("ov").onclick=function(){dr(false);fl(false)};
 $("wa").onclick=function(){var L=lines(),n=$("nm").value.trim(),ph=$("ph").value.trim(),a=$("ad").value.trim(),t=0;
 if(!L.length){$("er").textContent="Your cart is empty.";return}
@@ -98,6 +98,6 @@ $("er").textContent="";L.forEach(function(l){t+=l.p.price*l.q});
 var msg="Hi Aurea, I would like to order:\n"+L.map(function(l){return"- "+l.q+" x "+l.p.n+" ("+m(l.p.price*l.q)+")"}).join("\n")+"\n\nSubtotal: "+m(t)+"\nDelivery ("+(z.value==="in"?"Inside":"Outside")+" Colombo): "+m(DF[z.value])+"\nTotal: "+m(t+DF[z.value])+"\nName: "+n+"\nPhone: "+ph+"\nAddress: "+a;
 var w=window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank");if(!w)location.href="https://wa.me/"+WA+"?text="+encodeURIComponent(msg)};
 var u=new URLSearchParams(location.search);if(cats.indexOf(u.get("c"))>-1)F.c=u.get("c");u.getAll("s").forEach(function(x){if(skins.indexOf(x)>-1)F.s.push(x)});
-$("pr").min=MN;$("pr").max=MX;$("pr").value=MX;$("d1").textContent=m(DF.in);$("d2").textContent=m(DF.out);document.querySelectorAll("input[name=dz]").forEach(function(r){r.onchange=function(){$("er").textContent="";rc()}});draw();save();if(location.hash==="#cart")dr(true);
+$("pr").min=MN;$("pr").max=MX;$("pr").value=MX;$("d1").textContent=m(DF.in);$("d2").textContent=m(DF.out);document.querySelectorAll("input[name=dz]").forEach(function(r){r.onchange=function(){$("er").textContent="";rc()}});draw();save();if(location.hash==="#cart")location.href="cart.html";
 document.querySelectorAll("[data-wa]").forEach(function(a){a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(a.dataset.wa)});
 </script><script src="fx.js"></script></body></html>
